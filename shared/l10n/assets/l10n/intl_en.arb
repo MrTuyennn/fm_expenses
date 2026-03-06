@@ -1,0 +1,9 @@
+{
+  "@@locale": "en",
+  "hello": "hello",
+  "update": "update",
+  "delete": "Delete",
+  "add": "Add",
+  "search": "Search",
+  "account": "Account Information"
+}

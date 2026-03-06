@@ -1,0 +1,45 @@
+name: flutter_workspace
+
+packages:
+  - app
+  - packages/**
+  - shared/**
+
+command:
+  bootstrap:
+    dependencies:
+      intl: ^0.20.2
+
+scripts:
+  gen_assets:
+    run: melos exec --scope="*assets*" -- "./scripts/default_support_vec.sh"
+    description: Re-generate assets files using flutter_gen
+
+  analyze:
+    run: melos exec -- "flutter analyze"
+    description: Analyze all packages
+
+  test:
+    run: melos exec -- "flutter test"
+    description: Run tests for all packages
+
+  clean:
+    run: melos exec -- "flutter clean"
+    description: Clean all packages
+
+  get:
+    run: melos exec -- "flutter pub get"
+    description: Get dependencies for all packages
+
+  gen_l10n:
+    run: melos exec --scope="*l10n*" -- "arb_translate && flutter gen-l10n && dart fix --apply && dart format ."
+    description: Generate translation files
+
+ignore:
+  - "**/*.g.dart"
+  - "**/*.freezed.dart"
+  - "**/.dart_tool/**"
+  - "**/build/**"
+  - "**/.idea/**"
+  - "**/.vscode/**"
+  - "**/*.iml"

@@ -1,0 +1,12 @@
+# melos_managed_dependency_overrides: app_logger,assets,l10n,storage,theme
+dependency_overrides:
+  app_logger:
+    path: ../shared/logger
+  assets:
+    path: ../shared/assets
+  l10n:
+    path: ../shared/l10n
+  storage:
+    path: ../shared/storage
+  theme:
+    path: ../shared/theme
