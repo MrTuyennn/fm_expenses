@@ -8,10 +8,13 @@ import 'package:auto_route/auto_route.dart';
 Future<dynamic>? _closure;
 
 class AuthRouteGuard extends BaseRouteGuard {
-  AuthRouteGuard({required super.context});
+  AuthRouteGuard();
 
   @override
   void onNavigation(NavigationResolver resolver, StackRouter router) async {
+    /// call bloc Auth
+    // ignore: unused_local_variable
+    final context = router.navigatorKey.currentContext;
     bool isAuth() => false;
     // ref.read(appStateProvider.select((value) => value.isAuthencation));
 

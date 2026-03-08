@@ -14,9 +14,17 @@ class AppContainer extends StatefulWidget {
 }
 
 class _AppContainerState extends State<AppContainer> {
+  late final AppRouter router;
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      router = AppRouter(authRouteGuard: AuthRouteGuard());
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final router = AppRouter(authRouteGuard: AuthRouteGuard(context: context));
     return MaterialApp.router(
       theme: AppTheme.light(isTablet: false).themeData,
       darkTheme: AppTheme.dark(isTablet: false).themeData,
@@ -30,3 +38,5 @@ class _AppContainerState extends State<AppContainer> {
     );
   }
 }
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
