@@ -1,0 +1,6 @@
+# melos_managed_dependency_overrides: app_logger,service
+dependency_overrides:
+  app_logger:
+    path: ../../shared/logger
+  service:
+    path: ../../shared/service
