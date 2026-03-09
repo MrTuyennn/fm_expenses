@@ -14,13 +14,9 @@ class AppContainer extends StatefulWidget {
 }
 
 class _AppContainerState extends State<AppContainer> {
-  late final AppRouter router;
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      router = AppRouter(authRouteGuard: AuthRouteGuard());
-    });
   }
 
   @override
@@ -32,9 +28,9 @@ class _AppContainerState extends State<AppContainer> {
       localizationsDelegates: L10n.localizationsDelegates,
       supportedLocales: L10n.supportedLocales,
       themeMode: ThemeMode.light,
-      routerConfig: router.config(
-        navigatorObservers: () => [NavigatorObserverApp()],
-      ),
+      routerConfig: AppRouter(
+        authRouteGuard: AuthRouteGuard(),
+      ).config(navigatorObservers: () => [NavigatorObserverApp()]),
     );
   }
 }
