@@ -132,6 +132,30 @@ abstract class L10n {
   /// In vi, this message translates to:
   /// **'Thông tin tài khoản'**
   String get account;
+
+  /// No description provided for @txt_username.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tên đăng nhập'**
+  String get txt_username;
+
+  /// No description provided for @txt_enter_username.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nhập tên đăng nhập'**
+  String get txt_enter_username;
+
+  /// No description provided for @txt_password.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mật khẩu'**
+  String get txt_password;
+
+  /// No description provided for @txt_enter_password.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nhập mật khẩu'**
+  String get txt_enter_password;
 }
 
 class _L10nDelegate extends LocalizationsDelegate<L10n> {

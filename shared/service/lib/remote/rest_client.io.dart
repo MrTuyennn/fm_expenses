@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
-import './rest_interceptors_client.dart';
 import './rest_client.dart';
+import './rest_interceptors_client.dart';
 
 class RestClient implements IRestClient {
   late Dio _dio;
@@ -9,10 +9,11 @@ class RestClient implements IRestClient {
   RestClient({String? baseUrl}) {
     BaseOptions options = BaseOptions(
       baseUrl: baseUrl ?? 'http//:',
-      // connectTimeout: Endpoints.connectionTimeout,
-      // receiveTimeout: Endpoints.receiveTimeout,
+      connectTimeout: const Duration(seconds: 30),
+      sendTimeout: const Duration(seconds: 30),
+      receiveTimeout: const Duration(seconds: 30),
       responseType: ResponseType.json,
-      contentType: Headers.formUrlEncodedContentType,
+      contentType: Headers.jsonContentType,
     );
 
     _dio = Dio(options);
@@ -30,15 +31,8 @@ class RestClient implements IRestClient {
   }
 
   @override
-  Future<Response<dynamic>?> post(String path, String? dataPrams) async {
-    try {
-      return await _dio.post(path, data: {'JSON': "$dataPrams"});
-    } catch (e) {
-      if (e is DioException) {
-        return e.response;
-      }
-      rethrow;
-    }
+  Future<Response<dynamic>?> post(String path, String? dataPrams) {
+    return _dio.post(path, data: dataPrams);
   }
 
   @override

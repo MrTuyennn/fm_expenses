@@ -25,4 +25,16 @@ class L10nVi extends L10n {
 
   @override
   String get account => 'Thông tin tài khoản';
+
+  @override
+  String get txt_username => 'Tên đăng nhập';
+
+  @override
+  String get txt_enter_username => 'Nhập tên đăng nhập';
+
+  @override
+  String get txt_password => 'Mật khẩu';
+
+  @override
+  String get txt_enter_password => 'Nhập mật khẩu';
 }

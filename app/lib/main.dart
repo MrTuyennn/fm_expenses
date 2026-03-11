@@ -7,7 +7,7 @@ import './app_container.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  setupDI(baseUrl: 'https://hf-tau.vercel.app/api');
+  setupDI(baseUrl: 'https://boa-fleet-mistakenly.ngrok-free.app/api/v1');
   await Storage.instance.initialize();
 
   runApp(

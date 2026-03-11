@@ -5,5 +5,9 @@
     "delete":"Xóa",
     "add":"Thêm",
     "search":"Tìm kiếm",
-    "account":"Thông tin tài khoản"
+    "account":"Thông tin tài khoản",
+    "txt_username": "Tên đăng nhập",
+    "txt_enter_username": "Nhập tên đăng nhập",
+    "txt_password": "Mật khẩu",
+    "txt_enter_password": "Nhập mật khẩu"
 }

@@ -5,5 +5,9 @@
   "delete": "Delete",
   "add": "Add",
   "search": "Search",
-  "account": "Account Information"
+  "account": "Account Information",
+  "txt_username": "Username",
+  "txt_enter_username": "Enter username",
+  "txt_password": "Password",
+  "txt_enter_password": "Enter password"
 }
