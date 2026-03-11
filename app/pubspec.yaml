@@ -20,6 +20,8 @@ dependencies:
     path: ../shared/l10n
   storage:
     path: ../shared/storage
+  service:
+    path: ../shared/service
   app_logger:
     path: ../shared/logger
   auth:

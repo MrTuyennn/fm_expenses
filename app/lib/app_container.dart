@@ -1,14 +1,20 @@
 import 'package:app/routers/auth_route_guard.dart';
 import 'package:app/routers/base/navigator_observer.dart';
-import 'package:app/routers/router.dart';
 import 'package:flutter/material.dart';
 import 'package:l10n/l10n.dart';
 import 'package:theme/theme.dart';
 
-class AppContainer extends StatelessWidget {
-  AppContainer({super.key});
+import 'routers/router.dart';
 
-  final _appRouter = AppRouter(authRouteGuard: AuthRouteGuard());
+class AppContainer extends StatefulWidget {
+  const AppContainer({super.key});
+
+  @override
+  State<AppContainer> createState() => _AppContainerState();
+}
+
+class _AppContainerState extends State<AppContainer> {
+  final AppRouter router = AppRouter(authRouteGuard: AuthRouteGuard());
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +25,11 @@ class AppContainer extends StatelessWidget {
       localizationsDelegates: L10n.localizationsDelegates,
       supportedLocales: L10n.supportedLocales,
       themeMode: ThemeMode.light,
-      routerConfig: _appRouter.config(
+      routerConfig: router.config(
         navigatorObservers: () => [NavigatorObserverApp()],
       ),
     );
   }
 }
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
