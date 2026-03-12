@@ -1,13 +1,17 @@
 import 'dart:convert';
 
+import 'package:auth/data/usecase_params/auth_login_param.dart';
+import 'package:auth/presentation/pages/login/bloc/auth_login_bloc.dart';
+import 'package:auth/presentation/pages/login/bloc/auth_login_event.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:components/components.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:l10n/l10n.dart';
 import 'package:service/service.dart';
 import 'package:theme/theme.dart';
 
-import '../components/input.dart';
+import '../../components/input.dart';
 
 @RoutePage()
 class LoginPage extends StatefulWidget {
@@ -23,8 +27,8 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> _testApi() async {
     setState(() => _loading = true);
     try {
-      final client = sl<IRestClient>();
-      var params = {"username": "ROT", "password": "rot123"};
+      final IRestClient client = RestClient();
+      var params = {"username": "ROT", "password": "rot@123"};
       String str = jsonEncode(params);
       final res = await client.post('/auth/login', str);
       print(res);
@@ -81,7 +85,14 @@ class _LoginPageState extends State<LoginPage> {
               isLoading: _loading,
               label: 'Đăng nhập',
               onPressed: () {
-                _testApi();
+                context.read<AuthLoginBloc>().add(
+                  AuthLogin(
+                    params: AuthLoginParam(
+                      username: 'ROT',
+                      password: 'rot@123',
+                    ),
+                  ),
+                );
               },
             ),
           ],

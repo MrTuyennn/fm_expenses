@@ -1,14 +1,16 @@
 import 'package:dio/dio.dart';
+import 'package:injectable/injectable.dart';
 
 import './rest_client.dart';
 import './rest_interceptors_client.dart';
 
+@Singleton(as: IRestClient)
 class RestClient implements IRestClient {
   late Dio _dio;
 
-  RestClient({String? baseUrl}) {
+  RestClient() {
     BaseOptions options = BaseOptions(
-      baseUrl: baseUrl ?? 'http//:',
+      baseUrl: 'https://hf-tau.vercel.app/api/v1',
       connectTimeout: const Duration(seconds: 30),
       sendTimeout: const Duration(seconds: 30),
       receiveTimeout: const Duration(seconds: 30),

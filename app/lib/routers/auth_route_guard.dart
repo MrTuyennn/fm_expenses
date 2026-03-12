@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:app/routers/base/base_route_guard.dart';
-import 'package:auth/modules/auth_route_module.gr.dart';
+import 'package:auth/auth.dart';
 import 'package:auto_route/auto_route.dart';
 
 /// [_closure] - closure to be ensure that the excute once

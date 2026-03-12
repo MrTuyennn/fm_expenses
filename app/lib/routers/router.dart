@@ -1,5 +1,5 @@
 import 'package:app/routers/guard.dart';
-import 'package:auth/modules/auth_route_module.dart';
+import 'package:auth/auth.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:main/modules/main_route_module.gr.dart';
 
