@@ -1,9 +1,7 @@
 import 'package:auth/modules/auth_route_module.gr.dart';
 import 'package:auto_route/auto_route.dart';
 
-@AutoRouterConfig(
-  generateForDir: ['lib/src/presentation/pages', 'lib/src/module'],
-)
+@AutoRouterConfig(generateForDir: ['lib/presentation/pages', 'lib/module'])
 class AuthRouteModule extends RootStackRouter {
   @override
   List<AutoRoute> get routes => [

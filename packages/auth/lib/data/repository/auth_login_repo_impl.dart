@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:auth/data/dto/dtos.dart';
 import 'package:auth/domain/entities/auth_entities.dart';
 import 'package:auth/domain/repository/auth_login_repository.dart';
 import 'package:auth/domain/usecase/login/auth_login_param.dart';
@@ -18,9 +19,6 @@ class AuthLoginRepoImpl implements AuthLoginRepository {
       '/auth/login',
       jsonEncode(params.toJson()),
     );
-    final status = res?.statusCode;
-    final data = res?.data;
-    print(data);
-    throw UnimplementedError();
+    return AuthDto.fromJson(res?.data).toEntity();
   }
 }

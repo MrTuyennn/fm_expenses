@@ -188,6 +188,13 @@ class Result<T> with _$Result<T> {
     );
   }
 
+  void on({
+    required void Function(T data) success,
+    required void Function(CoreException error) failure,
+  }) {
+    when(success: (data) => success(data), failure: (error) => failure(error));
+  }
+
   T get dataOrThrow {
     return when(success: (data) => data, failure: (e) => throw e);
   }

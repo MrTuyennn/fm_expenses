@@ -15,11 +15,18 @@ class AuthLoginBloc extends Bloc<AuthLoginEvent, AuthLoginState> {
     on<AuthLogin>(login);
   }
 
-  void login(AuthLogin event, Emitter emit) {
+  void login(AuthLogin event, Emitter emit) async {
     try {
-      final params = AuthLoginParam(username: 'ROT', password: 'rot@123');
-      final data = authLoginUseCase.call(params);
-      logger.d(data);
+      final params = AuthLoginParam(username: 'ROT', password: 'rot2@123');
+      final result = await authLoginUseCase.call(params);
+      result.on(
+        success: (value) {
+          logger.d(value);
+        },
+        failure: (failure) {
+          logger.d(failure.type);
+        },
+      );
     } catch (e) {
       logger.e(e);
     }

@@ -9,7 +9,7 @@ class IAuthEntities {
   });
 
   final bool success;
-  final AuthDataEntities data;
+  final IAuthDataEntities data;
 }
 
 class AuthEntities extends IAuthEntities {
