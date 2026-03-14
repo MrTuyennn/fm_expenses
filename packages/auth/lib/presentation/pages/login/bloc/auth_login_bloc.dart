@@ -33,14 +33,6 @@ class AuthLoginBloc extends Bloc<AuthLoginEvent, AuthLoginState> {
           logger.d(e);
         },
       );
-      // result.on(
-      //   success: (value) {
-      //     logger.d(value);
-      //   },
-      //   failure: (failure) {
-      //     logger.e(failure.message);
-      //   },
-      // );
     } catch (e) {
       logger.e(e);
     }
