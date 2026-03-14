@@ -9,5 +9,8 @@
     "txt_username": "Tên đăng nhập",
     "txt_enter_username": "Nhập tên đăng nhập",
     "txt_password": "Mật khẩu",
-    "txt_enter_password": "Nhập mật khẩu"
+    "txt_enter_password": "Nhập mật khẩu",
+    "txt_login": "Đăng nhập",
+    "txt_please_enter_username": "Vui lòng nhập tên đăng nhập",
+    "txt_please_enter_password": "Vui lòng nhập mật khẩu"
 }

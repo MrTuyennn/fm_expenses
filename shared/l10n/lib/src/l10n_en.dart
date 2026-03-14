@@ -37,4 +37,13 @@ class L10nEn extends L10n {
 
   @override
   String get txt_enter_password => 'Enter password';
+
+  @override
+  String get txt_login => 'Login';
+
+  @override
+  String get txt_please_enter_username => 'Please enter username';
+
+  @override
+  String get txt_please_enter_password => 'Please enter password';
 }

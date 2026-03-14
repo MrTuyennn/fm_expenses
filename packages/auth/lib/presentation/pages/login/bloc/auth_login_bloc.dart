@@ -19,6 +19,7 @@ class AuthLoginBloc extends Bloc<AuthLoginEvent, AuthLoginState> {
 
   void login(AuthLogin event, Emitter emit) async {
     try {
+      emit(state.copyWith(newType: AuthLoginType.loading));
       IAuthLoginParam prams = event.params;
       final params = AuthLoginParam(
         username: prams.username,
@@ -33,6 +34,7 @@ class AuthLoginBloc extends Bloc<AuthLoginEvent, AuthLoginState> {
           logger.d(e);
         },
       );
+      emit(state.copyWith(newType: AuthLoginType.success));
     } catch (e) {
       logger.e(e);
     }
