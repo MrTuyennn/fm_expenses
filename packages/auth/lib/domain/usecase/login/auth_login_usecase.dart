@@ -7,13 +7,13 @@ import 'auth_login_param.dart';
 
 @injectable
 final class AuthLoginUseCase
-    extends UseCase<Result<IAuthEntities>, IAuthLoginParam> {
+    extends UseCase<Result<IAuthDataEntities>, IAuthLoginParam> {
   final AuthLoginRepository authLoginRepo;
 
   const AuthLoginUseCase(this.authLoginRepo);
 
   @override
-  Future<Result<IAuthEntities>> call(IAuthLoginParam param) {
+  Future<Result<IAuthDataEntities>> call(IAuthLoginParam param) {
     return Result.guardFuture(() => authLoginRepo.authLogin(param));
   }
 }

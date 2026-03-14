@@ -9,3 +9,4 @@ export './foundation/foundation.dart';
 export 'model/result.dart';
 export './di/di.dart';
 export './di/di_helper.dart';
+export './mixin/api_scope_mixin.dart';

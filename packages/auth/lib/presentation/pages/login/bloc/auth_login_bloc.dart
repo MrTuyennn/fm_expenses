@@ -1,8 +1,10 @@
 import 'package:app_logger/logger.dart';
 import 'package:auth/data/usecase_params/auth_login_param.dart';
+import 'package:auth/domain/usecase/login/auth_login_param.dart';
 import 'package:auth/domain/usecase/usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:service/service.dart';
 
 import 'auth_login_event.dart';
 import 'auth_login_state.dart';
@@ -17,16 +19,28 @@ class AuthLoginBloc extends Bloc<AuthLoginEvent, AuthLoginState> {
 
   void login(AuthLogin event, Emitter emit) async {
     try {
-      final params = AuthLoginParam(username: 'ROT', password: 'rot2@123');
+      IAuthLoginParam prams = event.params;
+      final params = AuthLoginParam(
+        username: prams.username,
+        password: prams.password,
+      );
       final result = await authLoginUseCase.call(params);
-      result.on(
-        success: (value) {
-          logger.d(value);
+      result.when(
+        success: (re) {
+          logger.e(re);
         },
-        failure: (failure) {
-          logger.d(failure.type);
+        failure: (e) {
+          logger.d(e);
         },
       );
+      // result.on(
+      //   success: (value) {
+      //     logger.d(value);
+      //   },
+      //   failure: (failure) {
+      //     logger.e(failure.message);
+      //   },
+      // );
     } catch (e) {
       logger.e(e);
     }

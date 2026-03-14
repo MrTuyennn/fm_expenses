@@ -2,14 +2,14 @@ import 'package:auth/domain/entities/entities.dart';
 import 'package:equatable/equatable.dart';
 
 class AuthLoginState extends Equatable {
-  const AuthLoginState({this.auth = const AuthEntities()});
+  const AuthLoginState({this.auth = const AuthDataEntities()});
 
-  final IAuthEntities auth;
+  final IAuthDataEntities auth;
 
   @override
   List<Object?> get props => [auth];
 
-  AuthLoginState copyWith({IAuthEntities? newAuth}) {
+  AuthLoginState copyWith({IAuthDataEntities? newAuth}) {
     return AuthLoginState(auth: newAuth ?? auth);
   }
 }

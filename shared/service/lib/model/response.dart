@@ -10,7 +10,7 @@ class BaseResponse<T> {
       data: (json['data'] != null && deserialize != null)
           ? deserialize(json['data'])
           : null,
-      message: json['message'],
+      message: json['message'] as String? ?? '',
     );
   }
 
