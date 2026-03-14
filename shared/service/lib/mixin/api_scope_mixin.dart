@@ -1,3 +1,4 @@
+import 'package:app_logger/logger.dart';
 import 'package:dio/dio.dart';
 
 import '../model/exception.dart';
@@ -11,7 +12,7 @@ mixin ApiScopeMixin {
   }) async {
     try {
       final res = await request();
-
+      logger.e(res);
       final response = BaseResponse<T>.fromJson(
         json: res?.data,
         deserialize: deserialize,
@@ -27,11 +28,9 @@ mixin ApiScopeMixin {
       return response.data!;
     } on CoreException {
       rethrow;
-    } catch (e) {
-      throw CoreException.nullReferenceException(
-        errorMessage ?? e.toString(),
-        null,
-      );
+    } on Exception catch (e) {
+      // Chuyển các Exception khác (ví dụ DioException khi chưa parse) về CoreException chuẩn
+      throw CoreException(e);
     }
   }
 }

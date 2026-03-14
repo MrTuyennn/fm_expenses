@@ -13,13 +13,13 @@ class CoreException implements Exception {
     if (error is CoreException) return error;
 
     if (error is DioException) {
-      // message =
-      //     ServerTalkUtils.getMessage(
-      //       locale: error.requestOptions.headers['language'],
-      //       code: error.response?.data?['error_code'],
-      //     ) ??
-      //     error.response?.statusMessage ??
-      //     error.message;
+      // Ưu tiên lấy message từ body JSON nếu có
+      if (error.response?.data is Map<String, dynamic>) {
+        final data = error.response!.data as Map<String, dynamic>;
+        message = data['message'] as String?;
+      }
+      // Fallback sang message mặc định của Dio
+      message ??= error.message;
       serverCode = error.response?.statusCode;
 
       switch (error.type) {
