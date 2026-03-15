@@ -9,6 +9,7 @@
       <module fileurl="file://$PROJECT_DIR$/shared/components/melos_components.iml" filepath="$PROJECT_DIR$/shared/components/melos_components.iml" />
       <module fileurl="file://$PROJECT_DIR$/shared/l10n/melos_l10n.iml" filepath="$PROJECT_DIR$/shared/l10n/melos_l10n.iml" />
       <module fileurl="file://$PROJECT_DIR$/packages/main/melos_main.iml" filepath="$PROJECT_DIR$/packages/main/melos_main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shared/provider/melos_provider.iml" filepath="$PROJECT_DIR$/shared/provider/melos_provider.iml" />
       <module fileurl="file://$PROJECT_DIR$/shared/service/melos_service.iml" filepath="$PROJECT_DIR$/shared/service/melos_service.iml" />
       <module fileurl="file://$PROJECT_DIR$/shared/storage/melos_storage.iml" filepath="$PROJECT_DIR$/shared/storage/melos_storage.iml" />
       <module fileurl="file://$PROJECT_DIR$/shared/theme/melos_theme.iml" filepath="$PROJECT_DIR$/shared/theme/melos_theme.iml" />

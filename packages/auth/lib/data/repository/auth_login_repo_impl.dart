@@ -9,9 +9,13 @@ import 'package:service/service.dart';
 
 @LazySingleton(as: AuthLoginRepository)
 class AuthLoginRepoImpl with ApiScopeMixin implements AuthLoginRepository {
-  const AuthLoginRepoImpl({required this.restClient});
+  const AuthLoginRepoImpl({
+    required this.restClient,
+    required this.tokenService,
+  });
 
   final IRestClient restClient;
+  final ITokenService tokenService;
 
   @override
   Future<IAuthDataEntities> authLogin(IAuthLoginParam params) async {
@@ -20,6 +24,9 @@ class AuthLoginRepoImpl with ApiScopeMixin implements AuthLoginRepository {
           restClient.post('/auth/login', jsonEncode(params.toJson())),
       deserialize: AuthDataDto.fromJson,
     );
+    if (data.accessToken != '') {
+      tokenService.saveToken(data.accessToken, data.refreshToken);
+    }
     return data.toEntity();
   }
 }

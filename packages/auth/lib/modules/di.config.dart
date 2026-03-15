@@ -27,7 +27,10 @@ _i174.GetIt auth(
 }) {
   final gh = _i526.GetItHelper(getIt, environment, environmentFilter);
   gh.lazySingleton<_i371.AuthLoginRepository>(
-    () => _i500.AuthLoginRepoImpl(restClient: gh<_i736.IRestClient>()),
+    () => _i500.AuthLoginRepoImpl(
+      restClient: gh<_i736.IRestClient>(),
+      tokenService: gh<_i736.ITokenService>(),
+    ),
   );
   gh.factory<_i982.AuthLoginUseCase>(
     () => _i982.AuthLoginUseCase(gh<_i371.AuthLoginRepository>()),
