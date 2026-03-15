@@ -25,7 +25,7 @@ class RestClient implements IRestClient {
       InterceptorsWrapper(
         onRequest: (options, handler) async {
           logger.i(
-            'REQUEST[${options.method}] => PATH: ${options.baseUrl}/${options.path}',
+            'REQUEST[${options.method}] => PATH: ${options.baseUrl}${options.path}',
           );
           final accessToken = await _tokenService.getAccessToken();
           options.headers['Content-Type'] = 'application/json';
@@ -34,12 +34,14 @@ class RestClient implements IRestClient {
           if (accessToken != null) {
             options.headers['Authorization'] = 'Bearer $accessToken';
           }
+          handler.next(options);
         },
 
         onResponse: (response, handler) {
           logger.d(
             'RESPONSE[${response.statusCode}] => PATH: ${response.requestOptions.baseUrl}${response.requestOptions.path}',
           );
+          handler.next(response);
         },
 
         onError: (err, handler) async {

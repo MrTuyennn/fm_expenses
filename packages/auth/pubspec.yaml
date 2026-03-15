@@ -24,6 +24,8 @@ dependencies:
     path: ../../shared/components
   app_logger:
     path: ../../shared/logger
+  storage:
+    path: ../../shared/storage
   freezed_annotation: ^3.1.0
   json_annotation: ^4.11.0
   equatable: ^2.0.8
