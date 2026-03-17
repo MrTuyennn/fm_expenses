@@ -1,5 +1,6 @@
 name: main
 description: "A new Flutter package project."
+publish_to: "none"
 version: 0.0.1
 homepage:
 
@@ -10,6 +11,22 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  app_logger:
+    path: ../../shared/logger
+  theme:
+    path: ../../shared/theme
+  assets:
+    path: ../../shared/assets
+  l10n:
+    path: ../../shared/l10n
+  home:
+    path: ../home
+  transaction:
+    path: ../transaction
+  member:
+    path: ../member
+  account:
+    path: ../account
   auto_route: ^11.1.0
 
 dev_dependencies:

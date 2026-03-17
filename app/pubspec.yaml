@@ -28,6 +28,14 @@ dependencies:
     path: ../packages/auth
   main:
     path: ../packages/main
+  home:
+    path: ../packages/home
+  transaction:
+    path: ../packages/transaction
+  member:
+    path: ../packages/member
+  account:
+    path: ../packages/account
   flutter_native_splash: ^2.4.7
   icons_launcher: ^3.0.3
   auto_route: ^11.1.0

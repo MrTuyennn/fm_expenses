@@ -2,17 +2,22 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/packages/account/melos_account.iml" filepath="$PROJECT_DIR$/packages/account/melos_account.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/melos_app.iml" filepath="$PROJECT_DIR$/app/melos_app.iml" />
       <module fileurl="file://$PROJECT_DIR$/shared/logger/melos_app_logger.iml" filepath="$PROJECT_DIR$/shared/logger/melos_app_logger.iml" />
       <module fileurl="file://$PROJECT_DIR$/shared/assets/melos_assets.iml" filepath="$PROJECT_DIR$/shared/assets/melos_assets.iml" />
       <module fileurl="file://$PROJECT_DIR$/packages/auth/melos_auth.iml" filepath="$PROJECT_DIR$/packages/auth/melos_auth.iml" />
       <module fileurl="file://$PROJECT_DIR$/shared/components/melos_components.iml" filepath="$PROJECT_DIR$/shared/components/melos_components.iml" />
+      <module fileurl="file://$PROJECT_DIR$/packages/home/melos_home.iml" filepath="$PROJECT_DIR$/packages/home/melos_home.iml" />
       <module fileurl="file://$PROJECT_DIR$/shared/l10n/melos_l10n.iml" filepath="$PROJECT_DIR$/shared/l10n/melos_l10n.iml" />
       <module fileurl="file://$PROJECT_DIR$/packages/main/melos_main.iml" filepath="$PROJECT_DIR$/packages/main/melos_main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/packages/member/melos_member.iml" filepath="$PROJECT_DIR$/packages/member/melos_member.iml" />
       <module fileurl="file://$PROJECT_DIR$/shared/provider/melos_provider.iml" filepath="$PROJECT_DIR$/shared/provider/melos_provider.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shared/router/melos_router.iml" filepath="$PROJECT_DIR$/shared/router/melos_router.iml" />
       <module fileurl="file://$PROJECT_DIR$/shared/service/melos_service.iml" filepath="$PROJECT_DIR$/shared/service/melos_service.iml" />
       <module fileurl="file://$PROJECT_DIR$/shared/storage/melos_storage.iml" filepath="$PROJECT_DIR$/shared/storage/melos_storage.iml" />
       <module fileurl="file://$PROJECT_DIR$/shared/theme/melos_theme.iml" filepath="$PROJECT_DIR$/shared/theme/melos_theme.iml" />
+      <module fileurl="file://$PROJECT_DIR$/packages/transaction/melos_transaction.iml" filepath="$PROJECT_DIR$/packages/transaction/melos_transaction.iml" />
       <module fileurl="file://$PROJECT_DIR$/melos_flutter_workspace.iml" filepath="$PROJECT_DIR$/melos_flutter_workspace.iml" />
     </modules>
   </component>

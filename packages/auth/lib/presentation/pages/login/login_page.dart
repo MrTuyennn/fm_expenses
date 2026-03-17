@@ -1,3 +1,4 @@
+import 'package:app_logger/logger.dart';
 import 'package:auth/data/usecase_params/auth_login_param.dart';
 import 'package:auth/presentation/pages/login/bloc/auth_login_bloc.dart';
 import 'package:auth/presentation/pages/login/bloc/auth_login_event.dart';
@@ -103,8 +104,9 @@ class _LoginPageState extends State<LoginPage> {
                   isLoading: state == AuthLoginType.loading,
                   label: l10n?.txt_login ?? '',
                   onPressed: () {
+                    logger.d('data');
+                    // AutoRouter.of(context).pushPath(OpenHomePageAction().path);
                     if (!_validate()) return;
-
                     context.read<AuthLoginBloc>().add(
                       AuthLogin(
                         params: AuthLoginParam(

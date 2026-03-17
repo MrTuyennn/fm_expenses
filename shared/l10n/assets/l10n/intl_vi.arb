@@ -12,5 +12,9 @@
     "txt_enter_password": "Nhập mật khẩu",
     "txt_login": "Đăng nhập",
     "txt_please_enter_username": "Vui lòng nhập tên đăng nhập",
-    "txt_please_enter_password": "Vui lòng nhập mật khẩu"
+    "txt_please_enter_password": "Vui lòng nhập mật khẩu",
+    "txt_home": "Trang chủ",
+    "txt_transaction": "Sổ giao dịch",
+    "txt_member": "Thành viên",
+    "txt_account": "Tài khoản"
 }

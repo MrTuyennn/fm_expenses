@@ -12,5 +12,9 @@
   "txt_enter_password": "Enter password",
   "txt_login": "Login",
   "txt_please_enter_username": "Please enter username",
-  "txt_please_enter_password": "Please enter password"
+  "txt_please_enter_password": "Please enter password",
+  "txt_home": "Home",
+  "txt_transaction": "Transaction Book",
+  "txt_member": "Member",
+  "txt_account": "Account"
 }

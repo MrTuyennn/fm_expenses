@@ -15,7 +15,7 @@ class AuthRouteGuard extends BaseRouteGuard {
     /// call bloc Auth
     // ignore: unused_local_variable
     final context = router.navigatorKey.currentContext;
-    bool isAuth() => false;
+    bool isAuth() => true;
     // ref.read(appStateProvider.select((value) => value.isAuthencation));
 
     if (isAuth()) {

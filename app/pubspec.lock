@@ -9,6 +9,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "93.0.0"
+  account:
+    dependency: "direct main"
+    description:
+      path: "../packages/account"
+      relative: true
+    source: path
+    version: "0.0.1"
   analyzer:
     dependency: transitive
     description:
@@ -465,6 +472,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+  home:
+    dependency: "direct main"
+    description:
+      path: "../packages/home"
+      relative: true
+    source: path
+    version: "0.0.1"
   hotreloader:
     dependency: transitive
     description:
@@ -663,6 +677,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.11.1"
+  member:
+    dependency: "direct main"
+    description:
+      path: "../packages/member"
+      relative: true
+    source: path
+    version: "0.0.1"
   meta:
     dependency: transitive
     description:
@@ -831,6 +852,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.1.0"
+  router:
+    dependency: "direct overridden"
+    description:
+      path: "../shared/router"
+      relative: true
+    source: path
+    version: "0.0.1"
   service:
     dependency: "direct main"
     description:
@@ -990,6 +1018,13 @@ packages:
     dependency: "direct main"
     description:
       path: "../shared/theme"
+      relative: true
+    source: path
+    version: "0.0.1"
+  transaction:
+    dependency: "direct main"
+    description:
+      path: "../packages/transaction"
       relative: true
     source: path
     version: "0.0.1"
