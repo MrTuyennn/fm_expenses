@@ -5,7 +5,7 @@ import '../../entities/entities.dart';
 import '../../repository/auth_login_repository.dart';
 import 'auth_login_param.dart';
 
-@injectable
+@lazySingleton
 final class AuthLoginUseCase
     extends UseCase<Result<IAuthDataEntities>, IAuthLoginParam> {
   final AuthLoginRepository authLoginRepo;

@@ -1,4 +1,3 @@
-import 'package:app_logger/logger.dart';
 import 'package:dio/dio.dart';
 
 import '../model/exception.dart';
@@ -12,7 +11,6 @@ mixin ApiScopeMixin {
   }) async {
     try {
       final res = await request();
-      logger.e(res);
       final response = BaseResponse<T>.fromJson(
         json: res?.data,
         deserialize: deserialize,

@@ -36,6 +36,8 @@ dependencies:
     path: ../packages/member
   account:
     path: ../packages/account
+  providers:
+    path: ../shared/providers
   flutter_native_splash: ^2.4.7
   icons_launcher: ^3.0.3
   auto_route: ^11.1.0

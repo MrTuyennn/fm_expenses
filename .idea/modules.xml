@@ -12,7 +12,7 @@
       <module fileurl="file://$PROJECT_DIR$/shared/l10n/melos_l10n.iml" filepath="$PROJECT_DIR$/shared/l10n/melos_l10n.iml" />
       <module fileurl="file://$PROJECT_DIR$/packages/main/melos_main.iml" filepath="$PROJECT_DIR$/packages/main/melos_main.iml" />
       <module fileurl="file://$PROJECT_DIR$/packages/member/melos_member.iml" filepath="$PROJECT_DIR$/packages/member/melos_member.iml" />
-      <module fileurl="file://$PROJECT_DIR$/shared/provider/melos_provider.iml" filepath="$PROJECT_DIR$/shared/provider/melos_provider.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shared/providers/melos_providers.iml" filepath="$PROJECT_DIR$/shared/providers/melos_providers.iml" />
       <module fileurl="file://$PROJECT_DIR$/shared/router/melos_router.iml" filepath="$PROJECT_DIR$/shared/router/melos_router.iml" />
       <module fileurl="file://$PROJECT_DIR$/shared/service/melos_service.iml" filepath="$PROJECT_DIR$/shared/service/melos_service.iml" />
       <module fileurl="file://$PROJECT_DIR$/shared/storage/melos_storage.iml" filepath="$PROJECT_DIR$/shared/storage/melos_storage.iml" />
