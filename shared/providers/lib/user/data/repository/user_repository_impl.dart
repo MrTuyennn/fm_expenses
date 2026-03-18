@@ -1,12 +1,12 @@
 import 'package:injectable/injectable.dart';
 import 'package:providers/user/data/dtos/get_user_dto.dart';
 import 'package:providers/user/domain/entities/user_entity.dart';
-import 'package:providers/user/domain/repository/get_user_repositpry.dart';
+import 'package:providers/user/domain/repository/user_repositpry.dart';
 import 'package:service/service.dart';
 
-@LazySingleton(as: GetUserRepositpry)
-class GetUserRepositoryImpl with ApiScopeMixin implements GetUserRepositpry {
-  const GetUserRepositoryImpl({required this.restClient});
+@LazySingleton(as: UserRepositpry)
+class UserRepositoryImpl with ApiScopeMixin implements UserRepositpry {
+  const UserRepositoryImpl({required this.restClient});
 
   final IRestClient restClient;
 

@@ -1,5 +1,5 @@
 import 'package:providers/user/domain/entities/entities.dart';
 
-abstract class GetUserRepositpry {
+abstract class UserRepositpry {
   Future<IUserEntity> getUser();
 }

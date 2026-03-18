@@ -11,26 +11,29 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
-import 'package:providers/user/bloc/user_bloc.dart' as _i15;
-import 'package:providers/user/data/repository/user_repository_impl.dart'
-    as _i868;
-import 'package:providers/user/domain/repository/user_repositpry.dart' as _i167;
-import 'package:providers/user/domain/usecase/get_user_usecase.dart' as _i782;
+import 'package:member/data/repository/get_member_repository_impl.dart'
+    as _i963;
+import 'package:member/domain/repository/member_repository.dart' as _i274;
+import 'package:member/domain/usecase/get_member_usecase.dart' as _i159;
+import 'package:member/domain/usecase/usecase.dart' as _i760;
+import 'package:member/presentation/bloc/bloc/member_bloc.dart' as _i999;
 import 'package:service/service.dart' as _i736;
 
 // initializes the registration of main-scope dependencies inside of GetIt
-_i174.GetIt user(
+_i174.GetIt member(
   _i174.GetIt getIt, {
   String? environment,
   _i526.EnvironmentFilter? environmentFilter,
 }) {
   final gh = _i526.GetItHelper(getIt, environment, environmentFilter);
-  gh.lazySingleton<_i167.UserRepositpry>(
-    () => _i868.UserRepositoryImpl(restClient: gh<_i736.IRestClient>()),
+  gh.lazySingleton<_i274.MemberRepository>(
+    () => _i963.MemberRepositoryImpl(gh<_i736.IRestClient>()),
   );
-  gh.lazySingleton<_i782.GetUserUseCase>(
-    () => _i782.GetUserUseCase(gh<_i167.UserRepositpry>()),
+  gh.lazySingleton<_i159.GetMemberUsecase>(
+    () => _i159.GetMemberUsecase(gh<_i274.MemberRepository>()),
   );
-  gh.factory<_i15.UserBloc>(() => _i15.UserBloc(gh<_i782.GetUserUseCase>()));
+  gh.lazySingleton<_i999.MemberBloc>(
+    () => _i999.MemberBloc(getMemberUsecase: gh<_i760.GetMemberUsecase>()),
+  );
   return getIt;
 }

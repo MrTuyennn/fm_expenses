@@ -1,16 +1,16 @@
 import 'package:injectable/injectable.dart';
 import 'package:providers/user/domain/entities/entities.dart';
-import 'package:providers/user/domain/repository/get_user_repositpry.dart';
+import 'package:providers/user/domain/repository/user_repositpry.dart';
 import 'package:service/service.dart';
 
 @lazySingleton
 final class GetUserUseCase extends NoParamsUseCase<Result<IUserEntity>> {
-  const GetUserUseCase(this.getUserRepositpry);
+  const GetUserUseCase(this.userRepositpry);
 
-  final GetUserRepositpry getUserRepositpry;
+  final UserRepositpry userRepositpry;
 
   @override
   Future<Result<IUserEntity>> call() {
-    return Result.guardFuture(() => getUserRepositpry.getUser());
+    return Result.guardFuture(() => userRepositpry.getUser());
   }
 }

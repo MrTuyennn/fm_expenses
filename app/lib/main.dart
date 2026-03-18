@@ -1,6 +1,7 @@
 import 'package:auth/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:member/member.dart';
 import 'package:providers/providers.dart';
 import 'package:service/service.dart';
 import 'package:storage/storage.dart';
@@ -27,6 +28,10 @@ class MainApp extends StatelessWidget {
         BlocProvider(
           lazy: false,
           create: (context) => di<UserBloc>()..add(GetUserEvent()),
+        ),
+        BlocProvider(
+          lazy: false,
+          create: (context) => di<MemberBloc>()..add(GetMemberEvent()),
         ),
       ],
       child: AppContainer(),

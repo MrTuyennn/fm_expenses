@@ -2,6 +2,7 @@ import 'package:app/module/di.config.dart';
 import 'package:auth/auth.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
+import 'package:member/member.dart';
 import 'package:providers/providers.dart';
 import 'package:service/service.dart';
 
@@ -12,5 +13,6 @@ Future<void> configureDependencies() async {
   await configureServiceDependencies();
   await configureAuthDependencies();
   await configureUserDependencies();
+  await configureMemberDependencies();
   getIt.init();
 }
