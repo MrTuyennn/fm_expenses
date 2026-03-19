@@ -18,13 +18,15 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   final GetUserUseCase getUserUseCase;
 
   void _getUserEvent(GetUserEvent event, Emitter emit) async {
+    emit(state.copyWith(newUserType: UserType.loading));
     final result = await getUserUseCase.call();
     result.when(
       success: (value) {
-        logger.d(value.id);
+        emit(state.copyWith(newUserType: UserType.success));
+        logger.e(value.id);
       },
       failure: (error) {
-        logger.e(error);
+        emit(state.copyWith(newUserType: UserType.error));
       },
     );
   }

@@ -3,22 +3,35 @@ import 'dart:async';
 import 'package:app/routers/base/base_route_guard.dart';
 import 'package:auth/auth.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:providers/providers.dart';
 
 /// [_closure] - closure to be ensure that the excute once
 Future<dynamic>? _closure;
 
 class AuthRouteGuard extends BaseRouteGuard {
-  AuthRouteGuard();
+  AuthRouteGuard(this.context);
+  BuildContext context;
 
   @override
   void onNavigation(NavigationResolver resolver, StackRouter router) async {
-    /// call bloc Auth
-    // ignore: unused_local_variable
-    final context = router.navigatorKey.currentContext;
-    bool isAuth() => true;
-    // ref.read(appStateProvider.select((value) => value.isAuthencation));
+    UserBloc userBloc = context.read<UserBloc>();
+    Future<bool> isAuth() async {
+      if (userBloc.state.userType == UserType.success) return true;
+      if (userBloc.state.userType == UserType.error) return false;
 
-    if (isAuth()) {
+      // Nếu đang loading thì mới chờ stream
+      final state = await userBloc.stream.firstWhere(
+        (s) => s.userType == UserType.success || s.userType == UserType.error,
+      );
+
+      return state.userType == UserType.success;
+    }
+
+    final authenticated = await isAuth();
+
+    if (authenticated) {
       resolver.next();
       return;
     }
@@ -27,7 +40,7 @@ class AuthRouteGuard extends BaseRouteGuard {
 
     await _closure?.then((_) => _closure = null);
 
-    if (isAuth() && resolver.routeName != router.current.name) {
+    if (authenticated && resolver.routeName != router.current.name) {
       resolver.next();
       return;
     }

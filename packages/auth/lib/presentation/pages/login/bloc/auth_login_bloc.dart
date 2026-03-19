@@ -4,6 +4,7 @@ import 'package:auth/domain/usecase/login/auth_login_param.dart';
 import 'package:auth/domain/usecase/usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:providers/providers.dart';
 import 'package:service/service.dart';
 
 import 'auth_login_event.dart';
@@ -28,7 +29,8 @@ class AuthLoginBloc extends Bloc<AuthLoginEvent, AuthLoginState> {
       final result = await authLoginUseCase.call(params);
       result.when(
         success: (re) {
-          logger.e(re);
+          final userBloc = di<UserBloc>();
+          userBloc.add(GetUserEvent());
         },
         failure: (e) {
           logger.d(e);
