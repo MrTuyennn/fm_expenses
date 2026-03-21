@@ -1,8 +1,8 @@
-import 'package:app_logger/logger.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:providers/user/domain/entities/entities.dart';
 import 'package:providers/user/domain/usecase/get_user_usecase.dart';
 import 'package:service/service.dart';
 
@@ -22,8 +22,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     final result = await getUserUseCase.call();
     result.when(
       success: (value) {
-        emit(state.copyWith(newUserType: UserType.success));
-        logger.e(value.id);
+        emit(state.copyWith(newUserType: UserType.success, newUser: value));
       },
       failure: (error) {
         emit(state.copyWith(newUserType: UserType.error));

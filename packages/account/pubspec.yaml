@@ -1,5 +1,6 @@
 name: account
 description: "A new Flutter package project."
+publish_to: "none"
 version: 0.0.1
 homepage:
 
@@ -11,6 +12,19 @@ dependencies:
   flutter:
     sdk: flutter
   auto_route: ^11.1.0
+  theme:
+    path: ../../shared/theme
+  l10n:
+    path: ../../shared/l10n
+  app_logger:
+    path: ../../shared/logger
+  storage:
+    path: ../../shared/storage
+  router:
+    path: ../../shared/router
+  providers:
+    path: ../../shared/providers
+  flutter_bloc: ^9.1.1
 
 dev_dependencies:
   flutter_test:
