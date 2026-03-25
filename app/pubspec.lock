@@ -204,6 +204,13 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
+  config:
+    dependency: "direct overridden"
+    description:
+      path: "../shared/config"
+      relative: true
+    source: path
+    version: "0.0.1"
   convert:
     dependency: transitive
     description:
