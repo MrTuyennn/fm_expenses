@@ -1,0 +1,13 @@
+//
+//  toktok-prod.xcconfig
+//  Runner
+//
+//  Created by Nguyen Ngoc Tuyen on 22/9/25.
+//
+
+// prod
+APP_APP_NAME=FM EXPENSE
+APP_DISPLAY_NAME=FM EXPENSE
+APP_BUILD_NAME=1.0.0
+APP_BUILD_NUMBER=1
+FLUTTER_TARGET=app/lib/main.dart
