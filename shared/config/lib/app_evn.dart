@@ -16,8 +16,6 @@ class Env {
       defaultValue: Flavor.production,
     );
 
-    print(flavor);
-
     switch (flavor) {
       case Flavor.stage:
         return Env._stage();
