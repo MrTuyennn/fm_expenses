@@ -13,7 +13,7 @@ class UserRepositoryImpl with ApiScopeMixin implements UserRepositpry {
   @override
   Future<IUserEntity> getUser() async {
     final data = await runApiScope(
-      request: () => restClient.get('/user/me'),
+      request: () => restClient.get('/users/me'),
       deserialize: GetUserDto.fromJson,
     );
     return data.toEntity();
