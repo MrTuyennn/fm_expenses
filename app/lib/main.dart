@@ -27,7 +27,9 @@ class MainApp extends StatelessWidget {
         BlocProvider(create: (context) => di<AuthLoginBloc>()),
         BlocProvider(
           lazy: false,
-          create: (context) => di<UserBloc>()..add(GetUserEvent()),
+          create: (context) => di<UserBloc>()
+            ..add(GetUserEvent())
+            ..add(GetListUserEvent()),
         ),
         BlocProvider(
           lazy: false,
