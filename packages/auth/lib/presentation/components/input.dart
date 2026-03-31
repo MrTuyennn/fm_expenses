@@ -27,7 +27,7 @@ class Input extends StatelessWidget {
 
     return Column(
       spacing: AppDimens.sm,
-      crossAxisAlignment: .start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           label,

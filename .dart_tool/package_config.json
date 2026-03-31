@@ -249,8 +249,8 @@
     }
   ],
   "generator": "pub",
-  "generatorVersion": "3.9.2",
-  "flutterRoot": "file:///Users/juncook/fvm/versions/3.35.3",
-  "flutterVersion": "3.35.3",
+  "generatorVersion": "3.11.4",
+  "flutterRoot": "file:///Users/juncook/fvm/versions/3.41.6",
+  "flutterVersion": "3.41.6",
   "pubCache": "file:///Users/juncook/.pub-cache"
 }
