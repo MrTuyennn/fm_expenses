@@ -5,10 +5,15 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "local",
+            "name": "dev",
             "program": "app/lib/main.dart",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "args": [
+                "--dart-define=FLAVOR=stage",
+                "--flavor",
+                "dev"
+            ]
         },
         {
             "name": "fm_expenses",

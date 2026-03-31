@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:app_logger/logger.dart';
+import 'package:config/config.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
@@ -17,7 +18,7 @@ class RestClient implements IRestClient {
 
   RestClient(this._tokenService) {
     final options = BaseOptions(
-      baseUrl: 'https://hf-tau.vercel.app/api/v1',
+      baseUrl: Env.of().endpoint,
       connectTimeout: const Duration(seconds: 30),
       sendTimeout: const Duration(seconds: 30),
       receiveTimeout: const Duration(seconds: 30),
