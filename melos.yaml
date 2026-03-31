@@ -43,3 +43,4 @@ ignore:
   - "**/.idea/**"
   - "**/.vscode/**"
   - "**/*.iml"
+sdkPath: .fvm/flutter_sdk

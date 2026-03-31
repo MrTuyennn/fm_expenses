@@ -1,4 +1,4 @@
-# melos_managed_dependency_overrides: app_logger,assets,l10n,storage,theme,auth,main,service,components,router,account,home,member,transaction,providers,config
+# melos_managed_dependency_overrides: app_logger,assets,l10n,storage,theme,auth,main,service,components,router,account,home,member,transaction,providers,splash,config
 dependency_overrides:
   account:
     path: ../packages/account
@@ -26,6 +26,8 @@ dependency_overrides:
     path: ../shared/router
   service:
     path: ../shared/service
+  splash:
+    path: ../packages/splash
   storage:
     path: ../shared/storage
   theme:
