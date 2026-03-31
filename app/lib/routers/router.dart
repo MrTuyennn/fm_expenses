@@ -5,7 +5,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:home/home.dart';
 import 'package:main/main.dart';
 import 'package:member/member.dart';
-import 'package:splash/splash.dart';
 import 'package:transaction/transaction.dart';
 
 @AutoRouterConfig(generateForDir: ['lib/modules', 'lib/app/presentation/pages'])
@@ -18,9 +17,9 @@ class AppRouter extends RootStackRouter {
 
   @override
   List<AutoRoute> get routes => [
-    ...SplashRouteModule().routes,
     CustomRoute(
       path: '/main',
+      initial: true,
       page: MainRoute.page,
       children: [
         AutoRoute(page: HomeRoute.page, path: 'home'),

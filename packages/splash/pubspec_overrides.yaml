@@ -1,6 +1,0 @@
-# melos_managed_dependency_overrides: assets,theme
-dependency_overrides:
-  assets:
-    path: ../../shared/assets
-  theme:
-    path: ../../shared/theme

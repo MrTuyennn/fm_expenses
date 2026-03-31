@@ -16,7 +16,6 @@
       <module fileurl="file://$PROJECT_DIR$/shared/providers/melos_providers.iml" filepath="$PROJECT_DIR$/shared/providers/melos_providers.iml" />
       <module fileurl="file://$PROJECT_DIR$/shared/router/melos_router.iml" filepath="$PROJECT_DIR$/shared/router/melos_router.iml" />
       <module fileurl="file://$PROJECT_DIR$/shared/service/melos_service.iml" filepath="$PROJECT_DIR$/shared/service/melos_service.iml" />
-      <module fileurl="file://$PROJECT_DIR$/packages/splash/melos_splash.iml" filepath="$PROJECT_DIR$/packages/splash/melos_splash.iml" />
       <module fileurl="file://$PROJECT_DIR$/shared/storage/melos_storage.iml" filepath="$PROJECT_DIR$/shared/storage/melos_storage.iml" />
       <module fileurl="file://$PROJECT_DIR$/shared/theme/melos_theme.iml" filepath="$PROJECT_DIR$/shared/theme/melos_theme.iml" />
       <module fileurl="file://$PROJECT_DIR$/packages/transaction/melos_transaction.iml" filepath="$PROJECT_DIR$/packages/transaction/melos_transaction.iml" />
