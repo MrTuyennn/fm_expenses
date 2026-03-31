@@ -249,8 +249,8 @@
     }
   ],
   "generator": "pub",
-  "generatorVersion": "3.11.3",
-  "flutterRoot": "file:///Users/bunny/fvm/versions/stable",
-  "flutterVersion": "3.41.5",
+  "generatorVersion": "3.11.4",
+  "flutterRoot": "file:///Users/bunny/fvm/versions/3.41.6",
+  "flutterVersion": "3.41.6",
   "pubCache": "file:///Users/bunny/.pub-cache"
 }
