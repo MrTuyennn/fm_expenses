@@ -30,6 +30,8 @@ dependencies:
     path: ../../shared/router
   providers:
     path: ../../shared/providers
+  main:
+    path: ../../packages/main
   freezed_annotation: ^3.1.0
   json_annotation: ^4.11.0
   equatable: ^2.0.8

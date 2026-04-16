@@ -8,7 +8,7 @@ import 'package:components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:l10n/l10n.dart';
-import 'package:router/router.dart';
+import 'package:main/modules/main_route_module.gr.dart';
 import 'package:theme/theme.dart';
 
 import '../../components/input.dart';
@@ -66,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
     return BlocListener<AuthLoginBloc, AuthLoginState>(
       listener: (context, state) {
         if (state.loginType == AuthLoginType.success) {
-          AutoRouter.of(context).pushPath(OpenHomePageAction().path);
+          context.router.replaceAll([const MainRoute()]);
         }
       },
       child: Scaffold(
