@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:components/drop_down/custom_drop_down.dart';
 import 'package:components/input/input_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,10 +40,33 @@ class _MemberPageState extends State<MemberPage> {
               padding: EdgeInsets.all(AppDimens.lg),
               child: Column(
                 children: [
-                  InputSearch(
-                    controller: TextEditingController(),
-                    hintText: 'Tìm kiếm theo tên...',
+                  Row(
+                    children: [
+                      Expanded(
+                        child: InputSearch(
+                          controller: TextEditingController(),
+                          hintText: 'Tìm kiếm theo tên...',
+                        ),
+                      ),
+                      const SizedBox(width: AppDimens.md),
+                      SizedBox(
+                        width: 120,
+                        child: CustomDropdown(
+                          lsItems: ["Tất cả", "User", "Admin", "Owner"]
+                              .map(
+                                (e) => DropdownMenuEntry(
+                                  value: e,
+                                  label: e,
+                                  labelWidget: Text(e, style: appTextTheme.callout),
+                                ),
+                              )
+                              .toList(),
+                          onChanged: (value) {},
+                        ),
+                      ),
+                    ],
                   ),
+                  const SizedBox(height: AppDimens.md),
                   Expanded(
                     child: BlocBuilder<MemberBloc, MemberState>(
                       builder: (context, state) {
@@ -54,6 +78,7 @@ class _MemberPageState extends State<MemberPage> {
                         // }
                         // final lsMember = state.lsMember.toList();
                         return ListView.separated(
+                          padding: EdgeInsets.zero,
                           physics: BouncingScrollPhysics(),
                           separatorBuilder: (context, index) {
                             return SizedBox(height: AppDimens.md);
