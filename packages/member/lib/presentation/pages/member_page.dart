@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:components/input/input_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:member/member.dart';
@@ -36,26 +37,36 @@ class _MemberPageState extends State<MemberPage> {
           Expanded(
             child: Padding(
               padding: EdgeInsets.all(AppDimens.lg),
-              child: BlocBuilder<MemberBloc, MemberState>(
-                builder: (context, state) {
-                  // if (state.memberType == MemberType.loading) {
-                  //   return const Center(child: CircularProgressIndicator());
-                  // }
-                  // if (state.memberType == MemberType.error) {
-                  //   return const Center(child: Text('Error'));
-                  // }
-                  // final lsMember = state.lsMember.toList();
-                  return ListView.separated(
-                    physics: BouncingScrollPhysics(),
-                    separatorBuilder: (context, index) {
-                      return SizedBox(height: AppDimens.md);
-                    },
-                    itemCount: 20,
-                    itemBuilder: (context, index) {
-                      return ItemMember();
-                    },
-                  );
-                },
+              child: Column(
+                children: [
+                  InputSearch(
+                    controller: TextEditingController(),
+                    hintText: 'Tìm kiếm theo tên...',
+                  ),
+                  Expanded(
+                    child: BlocBuilder<MemberBloc, MemberState>(
+                      builder: (context, state) {
+                        // if (state.memberType == MemberType.loading) {
+                        //   return const Center(child: CircularProgressIndicator());
+                        // }
+                        // if (state.memberType == MemberType.error) {
+                        //   return const Center(child: Text('Error'));
+                        // }
+                        // final lsMember = state.lsMember.toList();
+                        return ListView.separated(
+                          physics: BouncingScrollPhysics(),
+                          separatorBuilder: (context, index) {
+                            return SizedBox(height: AppDimens.md);
+                          },
+                          itemCount: 20,
+                          itemBuilder: (context, index) {
+                            return ItemMember();
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
