@@ -24,6 +24,10 @@ dependencies:
     path: ../../shared/router
   providers:
     path: ../../shared/providers
+  components:
+    path: ../../shared/components
+  utils:
+    path: ../../shared/utils
   flutter_bloc: ^9.1.1
 
 dev_dependencies:

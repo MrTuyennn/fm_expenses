@@ -8,6 +8,7 @@ import 'package:components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:l10n/l10n.dart';
+import 'package:main/modules/main_route_module.gr.dart';
 import 'package:theme/theme.dart';
 
 import '../../components/input.dart';
@@ -62,64 +63,71 @@ class _LoginPageState extends State<LoginPage> {
     final appTextTheme = theme.appTextTheme;
     final l10n = L10n.of(context);
 
-    return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.all(AppDimens.slg),
-        child: Column(
-          spacing: AppDimens.xxl,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'FM EXPENSES',
-              style: appTextTheme.largeTitle.copyWith(
-                color: appColors.green[700],
-                fontWeight: FontWeight.bold,
+    return BlocListener<AuthLoginBloc, AuthLoginState>(
+      listener: (context, state) {
+        if (state.loginType == AuthLoginType.success) {
+          context.router.replaceAll([const MainRoute()]);
+        }
+      },
+      child: Scaffold(
+        body: Padding(
+          padding: EdgeInsets.all(AppDimens.slg),
+          child: Column(
+            spacing: AppDimens.xxl,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'FM EXPENSES',
+                style: appTextTheme.largeTitle.copyWith(
+                  color: appColors.green[700],
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            ValueListenableBuilder(
-              valueListenable: _usernameError,
-              builder: (_, error, __) => Input(
-                controller: _controllerUserName,
-                label: l10n?.txt_username ?? '',
-                hintText: l10n?.txt_enter_username ?? '',
-                errorText: error,
+              ValueListenableBuilder(
+                valueListenable: _usernameError,
+                builder: (_, error, __) => Input(
+                  controller: _controllerUserName,
+                  label: l10n?.txt_username ?? '',
+                  hintText: l10n?.txt_enter_username ?? '',
+                  errorText: error,
+                ),
               ),
-            ),
 
-            ValueListenableBuilder(
-              valueListenable: _passwordError,
-              builder: (_, error, __) => Input(
-                controller: _controllerPassword,
-                label: l10n?.txt_password ?? '',
-                hintText: l10n?.txt_enter_password ?? '',
-                errorText: error,
+              ValueListenableBuilder(
+                valueListenable: _passwordError,
+                builder: (_, error, __) => Input(
+                  controller: _controllerPassword,
+                  label: l10n?.txt_password ?? '',
+                  hintText: l10n?.txt_enter_password ?? '',
+                  errorText: error,
+                ),
               ),
-            ),
-            BlocSelector<AuthLoginBloc, AuthLoginState, AuthLoginType>(
-              selector: (state) {
-                return state.loginType;
-              },
-              builder: (context, state) {
-                return ActionButton(
-                  isLoading: state == AuthLoginType.loading,
-                  label: l10n?.txt_login ?? '',
-                  onPressed: () {
-                    logger.d('data');
-                    // AutoRouter.of(context).pushPath(OpenHomePageAction().path);
-                    if (!_validate()) return;
-                    context.read<AuthLoginBloc>().add(
-                      AuthLogin(
-                        params: AuthLoginParam(
-                          username: _controllerUserName.text,
-                          password: _controllerPassword.text,
+              BlocSelector<AuthLoginBloc, AuthLoginState, AuthLoginType>(
+                selector: (state) {
+                  return state.loginType;
+                },
+                builder: (context, state) {
+                  return ActionButton(
+                    isLoading: state == AuthLoginType.loading,
+                    label: l10n?.txt_login ?? '',
+                    onPressed: () {
+                      logger.d('data');
+                      // AutoRouter.of(context).pushPath(OpenHomePageAction().path);
+                      if (!_validate()) return;
+                      context.read<AuthLoginBloc>().add(
+                        AuthLogin(
+                          params: AuthLoginParam(
+                            username: _controllerUserName.text,
+                            password: _controllerPassword.text,
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                );
-              },
-            ),
-          ],
+                      );
+                    },
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
