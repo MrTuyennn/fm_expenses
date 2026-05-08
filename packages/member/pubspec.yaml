@@ -26,6 +26,10 @@ dependencies:
     path: ../../shared/logger
   l10n:
     path: ../../shared/l10n
+  theme:
+    path: ../../shared/theme
+  components:
+    path: ../../shared/components
 
 dev_dependencies:
   flutter_test:

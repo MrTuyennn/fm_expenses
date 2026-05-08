@@ -19,6 +19,7 @@ class _AppContainerState extends State<AppContainer> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       theme: AppTheme.light(isTablet: false).themeData,
       darkTheme: AppTheme.dark(isTablet: false).themeData,
       locale: Locale('vi', 'VN'),
