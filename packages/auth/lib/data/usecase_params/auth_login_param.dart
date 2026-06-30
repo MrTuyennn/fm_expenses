@@ -5,7 +5,7 @@ part 'auth_login_param.g.dart';
 
 @JsonSerializable(createFactory: false)
 class AuthLoginParam extends IAuthLoginParam {
-  const AuthLoginParam({required super.username, required super.password});
+  const AuthLoginParam({required super.login, required super.password});
 
   @override
   Map<String, dynamic> toJson() => _$AuthLoginParamToJson(this);

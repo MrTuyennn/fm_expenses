@@ -66,6 +66,7 @@ class _LoginPageState extends State<LoginPage> {
     return BlocListener<AuthLoginBloc, AuthLoginState>(
       listener: (context, state) {
         if (state.loginType == AuthLoginType.success) {
+          logger.e('===>');
           context.router.replaceAll([const MainRoute()]);
         }
       },
@@ -117,7 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                       context.read<AuthLoginBloc>().add(
                         AuthLogin(
                           params: AuthLoginParam(
-                            username: _controllerUserName.text,
+                            login: _controllerUserName.text,
                             password: _controllerPassword.text,
                           ),
                         ),

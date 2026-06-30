@@ -1,4 +1,4 @@
-import 'package:meta/meta.dart';
+import 'package:flutter/foundation.dart';
 
 /// The `DeepLinkActionModel` abstract base class is designed to represent a
 /// models for handling deep link actions. Each models contains associated route

@@ -7,7 +7,4 @@ part of 'auth_login_param.dart';
 // **************************************************************************
 
 Map<String, dynamic> _$AuthLoginParamToJson(AuthLoginParam instance) =>
-    <String, dynamic>{
-      'username': instance.username,
-      'password': instance.password,
-    };
+    <String, dynamic>{'login': instance.login, 'password': instance.password};

@@ -23,7 +23,7 @@ class AuthLoginBloc extends Bloc<AuthLoginEvent, AuthLoginState> {
       emit(state.copyWith(newType: AuthLoginType.loading));
       IAuthLoginParam prams = event.params;
       final params = AuthLoginParam(
-        username: prams.username,
+        login: prams.login,
         password: prams.password,
       );
       final result = await authLoginUseCase.call(params);

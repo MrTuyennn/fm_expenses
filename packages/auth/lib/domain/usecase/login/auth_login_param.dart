@@ -1,8 +1,8 @@
 import 'package:service/service.dart';
 
 abstract class IAuthLoginParam implements IParam {
-  const IAuthLoginParam({this.username = '', this.password = ''});
+  const IAuthLoginParam({this.login = '', this.password = ''});
 
-  final String username;
+  final String login;
   final String password;
 }
