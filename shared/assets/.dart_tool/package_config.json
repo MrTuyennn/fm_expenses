@@ -153,9 +153,9 @@
     },
     {
       "name": "flutter",
-      "rootUri": "file:///Users/juncook/fvm/versions/3.41.6/packages/flutter",
+      "rootUri": "file:///Users/juncook/fvm/versions/3.44.7/packages/flutter",
       "packageUri": "lib/",
-      "languageVersion": "3.9"
+      "languageVersion": "3.10"
     },
     {
       "name": "flutter_gen_core",
@@ -273,7 +273,7 @@
     },
     {
       "name": "meta",
-      "rootUri": "file:///Users/juncook/.pub-cache/hosted/pub.dev/meta-1.17.0",
+      "rootUri": "file:///Users/juncook/.pub-cache/hosted/pub.dev/meta-1.18.0",
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
@@ -345,9 +345,9 @@
     },
     {
       "name": "sky_engine",
-      "rootUri": "file:///Users/juncook/fvm/versions/3.41.6/bin/cache/pkg/sky_engine",
+      "rootUri": "file:///Users/juncook/fvm/versions/3.44.7/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
-      "languageVersion": "3.9"
+      "languageVersion": "3.10"
     },
     {
       "name": "source_span",
@@ -471,8 +471,8 @@
     }
   ],
   "generator": "pub",
-  "generatorVersion": "3.11.4",
-  "flutterRoot": "file:///Users/juncook/fvm/versions/3.41.6",
-  "flutterVersion": "3.41.6",
+  "generatorVersion": "3.12.2",
+  "flutterRoot": "file:///Users/juncook/fvm/versions/3.44.7",
+  "flutterVersion": "3.44.7",
   "pubCache": "file:///Users/juncook/.pub-cache"
 }

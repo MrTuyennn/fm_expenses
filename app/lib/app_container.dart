@@ -14,7 +14,10 @@ class AppContainer extends StatefulWidget {
 }
 
 class _AppContainerState extends State<AppContainer> {
-  // final AppRouter router = ;
+  late final _router = AppRouter(authRouteGuard: AuthRouteGuard(context));
+  late final _routerConfig = _router.config(
+    navigatorObservers: () => [NavigatorObserverApp()],
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +29,7 @@ class _AppContainerState extends State<AppContainer> {
       localizationsDelegates: L10n.localizationsDelegates,
       supportedLocales: L10n.supportedLocales,
       themeMode: ThemeMode.light,
-      routerConfig: AppRouter(
-        authRouteGuard: AuthRouteGuard(context),
-      ).config(navigatorObservers: () => [NavigatorObserverApp()]),
+      routerConfig: _routerConfig,
     );
   }
 }

@@ -21,8 +21,8 @@ class _MemberPageState extends State<MemberPage> {
     final theme = context.theme;
     final appColors = theme.appColors;
     final appTextTheme = theme.appTextTheme;
-    return Scaffold(
-      body: Column(
+    return SafeArea(
+      child: Column(
         children: [
           Container(
             alignment: Alignment.centerLeft,
@@ -32,7 +32,9 @@ class _MemberPageState extends State<MemberPage> {
             ),
             child: Text(
               'Thành viên',
-              style: appTextTheme.bodyEmphasized.copyWith(color: appColors.green[700]),
+              style: appTextTheme.bodyEmphasized.copyWith(
+                color: appColors.green[700],
+              ),
             ),
           ),
           Expanded(
@@ -57,7 +59,10 @@ class _MemberPageState extends State<MemberPage> {
                                 (e) => DropdownMenuEntry(
                                   value: e,
                                   label: e,
-                                  labelWidget: Text(e, style: appTextTheme.callout),
+                                  labelWidget: Text(
+                                    e,
+                                    style: appTextTheme.callout,
+                                  ),
                                 ),
                               )
                               .toList(),
