@@ -58,11 +58,17 @@ class ItemMember extends StatelessWidget {
               const SizedBox(height: AppDimens.md),
               Row(
                 children: [
-                  Icon(Icons.calendar_today, size: AppDimens.slg, color: appColors.gray[500]),
+                  Icon(
+                    Icons.calendar_today,
+                    size: AppDimens.slg,
+                    color: appColors.gray[500],
+                  ),
                   const SizedBox(width: AppDimens.sm),
                   Text(
                     "Ngày tạo: 16/01/2026",
-                    style: appTextTheme.caption1.copyWith(color: appColors.gray[500]),
+                    style: appTextTheme.caption1.copyWith(
+                      color: appColors.gray[500],
+                    ),
                   ),
                 ],
               ),

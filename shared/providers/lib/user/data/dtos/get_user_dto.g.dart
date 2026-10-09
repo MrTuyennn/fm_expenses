@@ -8,19 +8,17 @@ part of 'get_user_dto.dart';
 
 GetUserDto _$GetUserDtoFromJson(Map<String, dynamic> json) => GetUserDto(
   id: json['id'] as String? ?? '',
-  username: json['username'] as String? ?? '',
-  nickname: json['nickname'] as String? ?? '',
-  role: json['role'] as String? ?? '',
-  createdAt: json['createdAt'] as String? ?? '',
-  updatedAt: json['updatedAt'] as String? ?? '',
+  email: json['email'] as String? ?? '',
+  fullName: json['full_name'] as String? ?? '',
+  createdAt: json['created_at'] as String? ?? '',
+  updatedAt: json['updated_at'] as String? ?? '',
 );
 
 Map<String, dynamic> _$GetUserDtoToJson(GetUserDto instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'username': instance.username,
-      'nickname': instance.nickname,
-      'role': instance.role,
-      'createdAt': instance.createdAt,
-      'updatedAt': instance.updatedAt,
+      'email': instance.email,
+      'full_name': instance.fullName,
+      'created_at': instance.createdAt,
+      'updated_at': instance.updatedAt,
     };

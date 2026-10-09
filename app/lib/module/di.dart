@@ -5,6 +5,7 @@ import 'package:injectable/injectable.dart';
 import 'package:member/member.dart';
 import 'package:providers/providers.dart';
 import 'package:service/service.dart';
+import 'package:transaction/transaction.dart';
 
 final getIt = GetIt.instance;
 
@@ -14,5 +15,6 @@ Future<void> configureDependencies() async {
   await configureAuthDependencies();
   await configureUserDependencies();
   await configureMemberDependencies();
+  await configureTransactionDependencies();
   getIt.init();
 }

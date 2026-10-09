@@ -4,7 +4,11 @@ import 'package:theme/theme.dart';
 class CustomDropdown<T> extends StatelessWidget {
   final List<DropdownMenuEntry<T>> lsItems;
   final Function(T) onChanged;
-  const CustomDropdown({super.key, required this.lsItems, required this.onChanged});
+  const CustomDropdown({
+    super.key,
+    required this.lsItems,
+    required this.onChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +23,9 @@ class CustomDropdown<T> extends StatelessWidget {
       selectedTrailingIcon: Icon(Icons.keyboard_arrow_up),
       inputDecorationTheme: InputDecorationTheme(
         constraints: BoxConstraints(maxHeight: 48),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppDimens.md)),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppDimens.md),
+        ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: appColors.gray[200]!),
           borderRadius: BorderRadius.circular(AppDimens.md),

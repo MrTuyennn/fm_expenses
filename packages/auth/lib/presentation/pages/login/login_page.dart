@@ -66,8 +66,11 @@ class _LoginPageState extends State<LoginPage> {
     return BlocListener<AuthLoginBloc, AuthLoginState>(
       listener: (context, state) {
         if (state.loginType == AuthLoginType.success) {
-          logger.e('===>');
           context.router.replaceAll([const MainRoute()]);
+        } else if (state.loginType == AuthLoginType.error) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(state.errorMessage ?? '')));
         }
       },
       child: Scaffold(
@@ -86,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               ValueListenableBuilder(
                 valueListenable: _usernameError,
-                builder: (_, error, __) => Input(
+                builder: (_, error, _) => Input(
                   controller: _controllerUserName,
                   label: l10n?.txt_username ?? '',
                   hintText: l10n?.txt_enter_username ?? '',
@@ -96,7 +99,7 @@ class _LoginPageState extends State<LoginPage> {
 
               ValueListenableBuilder(
                 valueListenable: _passwordError,
-                builder: (_, error, __) => Input(
+                builder: (_, error, _) => Input(
                   controller: _controllerPassword,
                   label: l10n?.txt_password ?? '',
                   hintText: l10n?.txt_enter_password ?? '',

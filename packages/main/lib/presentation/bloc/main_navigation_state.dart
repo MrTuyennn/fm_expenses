@@ -4,5 +4,6 @@ part 'main_navigation_state.freezed.dart';
 
 @freezed
 abstract class MainNavigationState with _$MainNavigationState {
-  const factory MainNavigationState({@Default(0) int selectedIndex}) = _MainNavigationState;
+  const factory MainNavigationState({@Default(0) int selectedIndex}) =
+      _MainNavigationState;
 }

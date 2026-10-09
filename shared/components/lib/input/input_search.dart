@@ -4,7 +4,11 @@ import 'package:theme/theme.dart';
 class InputSearch extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
-  const InputSearch({super.key, required this.controller, required this.hintText});
+  const InputSearch({
+    super.key,
+    required this.controller,
+    required this.hintText,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -16,10 +20,15 @@ class InputSearch extends StatelessWidget {
       controller: controller,
       decoration: InputDecoration(
         isDense: true,
-        contentPadding: EdgeInsets.symmetric(vertical: AppDimens.slg, horizontal: AppDimens.slg),
+        contentPadding: EdgeInsets.symmetric(
+          vertical: AppDimens.slg,
+          horizontal: AppDimens.slg,
+        ),
         hintText: hintText,
         hintStyle: appTextTheme.callout.copyWith(color: appColors.gray[500]),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppDimens.md)),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppDimens.md),
+        ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: appColors.gray[200]!),
           borderRadius: BorderRadius.circular(AppDimens.md),

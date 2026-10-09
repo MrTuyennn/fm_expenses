@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 
 enum Flavor { stage, production }
@@ -10,32 +12,27 @@ class Env {
     required this.appId,
   });
 
+  /// Backend host, e.g. `http://10.0.2.2:8080`. Always pass this explicitly
+  /// for a real device or production:
+  /// `--dart-define=API_BASE_URL=http://<lan-ip>:8080`.
+  /// Without it, falls back to the Android-emulator/iOS-simulator default so
+  /// `flutter run` keeps working out of the box.
+  static const String _apiBaseUrl = String.fromEnvironment('API_BASE_URL');
+
+  static String get _defaultApiBaseUrl =>
+      Platform.isAndroid ? 'http://10.0.2.2:8080' : 'http://localhost:8080';
+
   factory Env.of() {
     final flavor = Flavor.values.fromString(
       const String.fromEnvironment('FLAVOR'),
       defaultValue: Flavor.production,
     );
 
-    switch (flavor) {
-      case Flavor.stage:
-        return Env._stage();
-      case Flavor.production:
-        return Env._prd();
-    }
-  }
+    final baseUrl = _apiBaseUrl.isNotEmpty ? _apiBaseUrl : _defaultApiBaseUrl;
 
-  factory Env._stage() {
     return Env._(
-      endpoint: 'https://hf-tau.vercel.app/api/v1',
-      flavor: Flavor.stage,
-      appId: 'fm.expenses',
-    );
-  }
-
-  factory Env._prd() {
-    return Env._(
-      endpoint: 'https://hf-tau.vercel.app/api/v1/production',
-      flavor: Flavor.production,
+      endpoint: '$baseUrl/api/v1',
+      flavor: flavor,
       appId: 'fm.expenses',
     );
   }

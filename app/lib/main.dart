@@ -7,10 +7,12 @@ import 'package:service/service.dart';
 import 'package:storage/storage.dart';
 
 import './app_container.dart';
+import 'firebase/firebase_bootstrap.dart';
 import 'module/di.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await initializeFirebase();
   await configureDependencies();
   await Storage.instance.initialize();
 
@@ -27,9 +29,7 @@ class MainApp extends StatelessWidget {
         BlocProvider(create: (context) => di<AuthLoginBloc>()),
         BlocProvider(
           lazy: false,
-          create: (context) => di<UserBloc>()
-            ..add(GetUserEvent())
-            ..add(GetListUserEvent()),
+          create: (context) => di<UserBloc>()..add(GetUserEvent()),
         ),
         BlocProvider(
           lazy: false,

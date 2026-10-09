@@ -40,4 +40,3 @@ Future<void> loadFontIfNecessary() async {
     ].map((e) => loadFromRootBundle(FontFamily.resIcons, e)).toList(),
   );
 }
-

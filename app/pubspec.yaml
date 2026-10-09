@@ -40,6 +40,8 @@ dependencies:
     path: ../shared/providers
   flutter_native_splash: ^2.4.7
   icons_launcher: ^3.0.3
+  firebase_core: ^4.9.0
+  firebase_crashlytics: ^5.0.7
   auto_route: ^11.1.0
   injectable: ^2.7.1+4
   get_it: ^8.3.0

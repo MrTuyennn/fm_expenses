@@ -13,10 +13,10 @@ class CoreException implements Exception {
     if (error is CoreException) return error;
 
     if (error is DioException) {
-      // Ưu tiên lấy message từ body JSON nếu có
+      // Backend envelope on error is {"error": "mô tả lỗi"}.
       if (error.response?.data is Map<String, dynamic>) {
         final data = error.response!.data as Map<String, dynamic>;
-        message = data['message'] as String?;
+        message = data['error'] as String?;
       }
       // Fallback sang message mặc định của Dio
       message ??= error.message;

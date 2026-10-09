@@ -1,6 +1,5 @@
 import 'package:app_logger/logger.dart';
 import 'package:auth/data/usecase_params/auth_login_param.dart';
-import 'package:auth/domain/usecase/login/auth_login_param.dart';
 import 'package:auth/domain/usecase/usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
@@ -18,27 +17,41 @@ class AuthLoginBloc extends Bloc<AuthLoginEvent, AuthLoginState> {
     on<AuthLogin>(login);
   }
 
-  void login(AuthLogin event, Emitter emit) async {
-    try {
-      emit(state.copyWith(newType: AuthLoginType.loading));
-      IAuthLoginParam prams = event.params;
-      final params = AuthLoginParam(
-        login: prams.login,
-        password: prams.password,
-      );
-      final result = await authLoginUseCase.call(params);
-      result.when(
-        success: (re) {
-          final userBloc = di<UserBloc>();
-          userBloc.add(GetUserEvent());
-        },
-        failure: (e) {
-          logger.d(e);
-        },
-      );
-      emit(state.copyWith(newType: AuthLoginType.success));
-    } catch (e) {
-      logger.e(e);
+  Future<void> login(AuthLogin event, Emitter emit) async {
+    emit(state.copyWith(newType: AuthLoginType.loading));
+
+    final prams = event.params;
+    final params = AuthLoginParam(login: prams.login, password: prams.password);
+
+    final result = await authLoginUseCase.call(params);
+    result.when(
+      success: (auth) {
+        // Token đã lưu, verify + lấy thông tin user hiện tại.
+        di<UserBloc>().add(GetUserEvent());
+        emit(state.copyWith(newAuth: auth, newType: AuthLoginType.success));
+      },
+      failure: (error) {
+        logger.e(error);
+        emit(
+          state.copyWith(
+            newType: AuthLoginType.error,
+            newErrorMessage: _friendlyMessage(error),
+          ),
+        );
+      },
+    );
+  }
+
+  String _friendlyMessage(CoreException error) {
+    switch (error.type) {
+      case CoreExceptionType.unauthorized:
+        return 'Sai email hoặc mật khẩu';
+      case CoreExceptionType.network:
+        return 'Mất kết nối mạng, vui lòng thử lại';
+      case CoreExceptionType.timeout:
+        return 'Kết nối quá chậm, vui lòng thử lại';
+      default:
+        return 'Đăng nhập thất bại, vui lòng thử lại';
     }
   }
 }

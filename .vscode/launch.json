@@ -16,6 +16,42 @@
             ]
         },
         {
+            "name": "Local backend - iOS Simulator",
+            "cwd": "app",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--flavor",
+                "dev",
+                "--dart-define=FLAVOR=dev",
+                "--dart-define=API_BASE_URL=http://localhost:8080"
+            ]
+        },
+        {
+            "name": "Local backend - Android Emulator",
+            "cwd": "app",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--flavor",
+                "dev",
+                "--dart-define=FLAVOR=dev",
+                "--dart-define=API_BASE_URL=http://10.0.2.2:8080"
+            ]
+        },
+        {
+            "name": "Local backend - Real device (LAN)",
+            "cwd": "app",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--flavor",
+                "dev",
+                "--dart-define=FLAVOR=dev",
+                "--dart-define=API_BASE_URL=http://192.168.1.71:8080"
+            ]
+        },
+        {
             "name": "fm_expenses",
             "request": "launch",
             "type": "dart"

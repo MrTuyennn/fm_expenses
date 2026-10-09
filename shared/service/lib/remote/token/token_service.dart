@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:injectable/injectable.dart';
 import 'package:storage/storage.dart';
 
@@ -7,13 +9,19 @@ import './itoken_service.dart';
 class TokenService implements ITokenService {
   TokenService();
 
+  final _loggedOutController = StreamController<void>.broadcast();
+
   @override
-  Future<void> clearToken() {
+  Stream<void> get onLoggedOut => _loggedOutController.stream;
+
+  @override
+  Future<void> clearToken() async {
     final secureStorage = Storage.instance.secureStorage;
-    return Future.wait([
+    await Future.wait([
       secureStorage.delete(key: accessTokenSecretKey),
       secureStorage.delete(key: refreshAccessTokenSecretKey),
     ]);
+    _loggedOutController.add(null);
   }
 
   @override

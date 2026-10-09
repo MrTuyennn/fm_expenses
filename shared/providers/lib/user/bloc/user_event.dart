@@ -5,4 +5,6 @@ sealed class UserEvent {}
 
 final class GetUserEvent extends UserEvent {}
 
-final class GetListUserEvent extends UserEvent {}
+/// Dispatched when the session is gone (explicit logout, or a refresh-token
+/// attempt failed) so the auth guard stops thinking the user is signed in.
+final class UserLoggedOut extends UserEvent {}

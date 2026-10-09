@@ -33,7 +33,9 @@ class _AccountPageState extends State<AccountPage> {
             ),
             child: Text(
               'Tài khoản',
-              style: appTextTheme.bodyEmphasized.copyWith(color: appColors.green[700]),
+              style: appTextTheme.bodyEmphasized.copyWith(
+                color: appColors.green[700],
+              ),
             ),
           ),
           Padding(
@@ -42,7 +44,9 @@ class _AccountPageState extends State<AccountPage> {
               borderRadius: BorderRadius.all(Radius.circular(AppDimens.slg)),
               child: Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(AppDimens.slg)),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(AppDimens.slg),
+                  ),
                   border: Border.all(color: appColors.gray[300]!),
                 ),
                 child: BlocSelector<UserBloc, UserState, IUserEntity>(
@@ -62,21 +66,24 @@ class _AccountPageState extends State<AccountPage> {
                                   width: 40,
                                   decoration: BoxDecoration(
                                     color: appColors.white,
-                                    borderRadius: BorderRadius.all(Radius.circular(40)),
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(40),
+                                    ),
                                   ),
                                 ),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      user.username,
-                                      style: appTextTheme.bodyEmphasized.copyWith(
-                                        color: appColors.white,
-                                      ),
+                                      user.email,
+                                      style: appTextTheme.bodyEmphasized
+                                          .copyWith(color: appColors.white),
                                     ),
                                     Text(
-                                      user.nickname,
-                                      style: appTextTheme.body.copyWith(color: appColors.white),
+                                      user.fullName,
+                                      style: appTextTheme.body.copyWith(
+                                        color: appColors.white,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -92,7 +99,10 @@ class _AccountPageState extends State<AccountPage> {
                                 children: [
                                   Icon(Icons.person_outline),
                                   const SizedBox(width: AppDimens.sm),
-                                  Text("Thông tin cơ bản", style: appTextTheme.bodyEmphasized),
+                                  Text(
+                                    "Thông tin cơ bản",
+                                    style: appTextTheme.bodyEmphasized,
+                                  ),
                                 ],
                               ),
                               const SizedBox(height: AppDimens.lg),
@@ -100,31 +110,41 @@ class _AccountPageState extends State<AccountPage> {
                                 children: [
                                   Expanded(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          'Tên đăng nhập',
-                                          style: appTextTheme.subheadline.copyWith(
-                                            color: appColors.gray[600],
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                                          'Email',
+                                          style: appTextTheme.subheadline
+                                              .copyWith(
+                                                color: appColors.gray[600],
+                                                fontWeight: FontWeight.bold,
+                                              ),
                                         ),
-                                        Text(user.username, style: appTextTheme.bodyEmphasized),
+                                        Text(
+                                          user.email,
+                                          style: appTextTheme.bodyEmphasized,
+                                        ),
                                       ],
                                     ),
                                   ),
                                   Expanded(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           'Tên hiển thị',
-                                          style: appTextTheme.subheadline.copyWith(
-                                            color: appColors.gray[600],
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                                          style: appTextTheme.subheadline
+                                              .copyWith(
+                                                color: appColors.gray[600],
+                                                fontWeight: FontWeight.bold,
+                                              ),
                                         ),
-                                        Text(user.username, style: appTextTheme.bodyEmphasized),
+                                        Text(
+                                          user.fullName,
+                                          style: appTextTheme.bodyEmphasized,
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -136,7 +156,10 @@ class _AccountPageState extends State<AccountPage> {
                                 children: [
                                   Icon(Icons.shield_outlined),
                                   const SizedBox(width: AppDimens.sm),
-                                  Text("Vai trò và quyền hạn", style: appTextTheme.bodyEmphasized),
+                                  Text(
+                                    "Vai trò và quyền hạn",
+                                    style: appTextTheme.bodyEmphasized,
+                                  ),
                                 ],
                               ),
                               const SizedBox(height: AppDimens.lg),
@@ -158,8 +181,6 @@ class _AccountPageState extends State<AccountPage> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: AppDimens.md),
-                                  Text("(${user.role})"),
                                 ],
                               ),
                               const SizedBox(height: AppDimens.xxl),
@@ -167,7 +188,10 @@ class _AccountPageState extends State<AccountPage> {
                                 children: [
                                   Icon(Icons.calendar_today),
                                   const SizedBox(width: AppDimens.sm),
-                                  Text("Thông tin tài khoản", style: appTextTheme.bodyEmphasized),
+                                  Text(
+                                    "Thông tin tài khoản",
+                                    style: appTextTheme.bodyEmphasized,
+                                  ),
                                 ],
                               ),
                               const SizedBox(height: AppDimens.lg),
@@ -175,17 +199,19 @@ class _AccountPageState extends State<AccountPage> {
                                 children: [
                                   Expanded(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           'Ngày tạo',
-                                          style: appTextTheme.subheadline.copyWith(
-                                            color: appColors.gray[600],
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                                          style: appTextTheme.subheadline
+                                              .copyWith(
+                                                color: appColors.gray[600],
+                                                fontWeight: FontWeight.bold,
+                                              ),
                                         ),
                                         Text(
-                                          DateTime.parse(user.createdAt).formatDate(),
+                                          user.createdAt?.formatDate() ?? '-',
                                           style: appTextTheme.subheadline,
                                         ),
                                       ],
@@ -193,17 +219,19 @@ class _AccountPageState extends State<AccountPage> {
                                   ),
                                   Expanded(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           'Cập nhật lần cuối',
-                                          style: appTextTheme.subheadline.copyWith(
-                                            color: appColors.gray[600],
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                                          style: appTextTheme.subheadline
+                                              .copyWith(
+                                                color: appColors.gray[600],
+                                                fontWeight: FontWeight.bold,
+                                              ),
                                         ),
                                         Text(
-                                          DateTime.parse(user.updatedAt).formatDate(),
+                                          user.updatedAt?.formatDate() ?? '-',
                                           style: appTextTheme.subheadline,
                                         ),
                                       ],

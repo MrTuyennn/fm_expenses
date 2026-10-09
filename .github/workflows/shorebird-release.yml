@@ -1,0 +1,76 @@
+name: Shorebird release
+
+# A "release" is the full binary Shorebird patches apply on top of. You run
+# this once per flavor/platform/version — e.g. right before submitting a new
+# version to the Play Store / App Store, or right after creating the Shorebird
+# apps for the first time. For day-to-day OTA updates use shorebird-patch.yml.
+on:
+  workflow_dispatch:
+    inputs:
+      flavor:
+        description: Flavor to release
+        required: true
+        type: choice
+        options: [dev, stag, prod]
+      platform:
+        description: Platform to release
+        required: true
+        type: choice
+        options: [android, ios]
+
+jobs:
+  release:
+    name: shorebird release ${{ inputs.platform }} (${{ inputs.flavor }})
+    runs-on: ${{ inputs.platform == 'ios' && 'macos-latest' || 'ubuntu-latest' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read Flutter version from .fvmrc
+        id: flutter_version
+        run: echo "version=$(jq -r '.flutter' .fvmrc)" >> "$GITHUB_OUTPUT"
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ steps.flutter_version.outputs.version }}
+          channel: stable
+          cache: true
+
+      - name: Activate melos
+        run: dart pub global activate melos
+
+      - name: Bootstrap workspace
+        run: melos bootstrap
+
+      - name: Install Shorebird CLI
+        run: |
+          curl --compressed -o- -L https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh | bash
+          echo "$HOME/.shorebird/bin" >> "$GITHUB_PATH"
+
+      - name: shorebird release android
+        if: inputs.platform == 'android'
+        working-directory: app
+        run: |
+          shorebird release android \
+            --flavor ${{ inputs.flavor }} \
+            --dart-define=FLAVOR=${{ inputs.flavor }} \
+            --no-confirm
+        env:
+          SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
+
+      # iOS releases need Apple signing in place first. This job intentionally
+      # no-ops until the signing secrets exist — see docs/release-pipeline.md.
+      - name: shorebird release ios
+        if: inputs.platform == 'ios' && secrets.IOS_DIST_CERTIFICATE_BASE64 != ''
+        working-directory: app
+        run: |
+          shorebird release ios \
+            --flavor ${{ inputs.flavor }} \
+            --dart-define=FLAVOR=${{ inputs.flavor }} \
+            --no-confirm
+        env:
+          SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
+
+      - name: iOS signing not configured yet
+        if: inputs.platform == 'ios' && secrets.IOS_DIST_CERTIFICATE_BASE64 == ''
+        run: |
+          echo "::warning::Skipping iOS release — IOS_DIST_CERTIFICATE_BASE64 secret is not set yet. See docs/release-pipeline.md."

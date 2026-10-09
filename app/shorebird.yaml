@@ -1,0 +1,24 @@
+# Shorebird code-push configuration for the `app` package.
+#
+# This file is a SCAFFOLD. It does not work yet — you must create the real
+# Shorebird apps first. See docs/release-pipeline.md for the full checklist.
+#
+# One-time setup (run locally, not in CI):
+#   1. curl --compressed -o- -L https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh | bash
+#   2. shorebird login
+#   3. From this `app/` directory, create one Shorebird app per flavor
+#      (dev/stag/prod are separate binaries with different application IDs,
+#      so they need separate Shorebird apps):
+#        shorebird apps create fm-expenses-dev
+#        shorebird apps create fm-expenses-stag
+#        shorebird apps create fm-expenses-prod
+#   4. Copy each generated app_id below, replacing the TODO placeholders.
+#   5. For CI, generate a token once with `shorebird login:ci` and store it
+#      in the GitHub secret SHOREBIRD_TOKEN (see .github/workflows/shorebird-*.yml).
+
+app_id: TODO_REPLACE_WITH_fm-expenses-prod_APP_ID
+
+flavors:
+  dev: TODO_REPLACE_WITH_fm-expenses-dev_APP_ID
+  stag: TODO_REPLACE_WITH_fm-expenses-stag_APP_ID
+  prod: TODO_REPLACE_WITH_fm-expenses-prod_APP_ID

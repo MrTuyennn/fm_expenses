@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:app_logger/logger.dart';
@@ -7,13 +8,12 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
 import './rest_client.dart';
+import './token/dtos/auth_token_dto.dart';
 import './token/itoken_service.dart';
-import 'token/dtos/refresh_token_response.dart';
 
 @Singleton(as: IRestClient)
 class RestClient implements IRestClient {
   bool _isRefreshing = false;
-  Completer<String>? _refreshCompleter;
   final List<Map<String, dynamic>> _failedRequests = [];
 
   RestClient(this._tokenService) {
@@ -25,6 +25,12 @@ class RestClient implements IRestClient {
       responseType: ResponseType.json,
       contentType: Headers.jsonContentType,
     );
+
+    // Plain Dio with no interceptors, used only for the refresh call itself.
+    // If `/auth/refresh` reused `_dio`, a 401 from `/auth/refresh` would
+    // re-enter this same error interceptor and hang forever waiting on
+    // itself (queued in `_failedRequests`, never resolved/rejected).
+    _refreshDio = Dio(options);
 
     _dio = Dio(options);
     _dio.interceptors.add(
@@ -59,9 +65,9 @@ class RestClient implements IRestClient {
             return handler.next(err);
           }
 
-          // Check token có tồn tại không
-          final token = await _tokenService.getAccessToken() ?? '';
-          if (token.isEmpty) {
+          // Check refresh token có tồn tại không
+          final refreshToken = await _tokenService.getRefreshToken() ?? '';
+          if (refreshToken.isEmpty) {
             return handler.reject(err);
           }
 
@@ -73,21 +79,18 @@ class RestClient implements IRestClient {
 
           // Bắt đầu refresh
           _isRefreshing = true;
-          _refreshCompleter = Completer<String>();
 
           final newAccessToken = await _refreshToken();
 
           if (newAccessToken != null) {
             // Refresh thành công → retry request hiện tại
-            _refreshCompleter!.complete(newAccessToken);
             await _retryRequests(newAccessToken);
 
             final options = err.requestOptions;
             options.headers['Authorization'] = 'Bearer $newAccessToken';
             return handler.resolve(await _dio.fetch(options));
           } else {
-            // Refresh thất bại → đá ra login
-            _refreshCompleter!.completeError(err);
+            // Refresh thất bại (token đã rotate/hết hạn) → đá ra login
             await _handleLogout(err, handler);
           }
         },
@@ -96,6 +99,7 @@ class RestClient implements IRestClient {
   }
 
   late final Dio _dio;
+  late final Dio _refreshDio;
   final ITokenService _tokenService;
 
   Future<void> _handleLogout(
@@ -111,8 +115,6 @@ class RestClient implements IRestClient {
 
     // Clear token và đá ra login
     await _tokenService.clearToken();
-    logger.e("call logout");
-    // _userBloc.add(LogoutEvent());
 
     return handler.next(err);
   }
@@ -121,22 +123,20 @@ class RestClient implements IRestClient {
     try {
       final refreshToken = await _tokenService.getRefreshToken();
 
-      final response = await _dio.post<Map<String, dynamic>>(
+      final response = await _refreshDio.post<Map<String, dynamic>>(
         '/auth/refresh',
-        data: {"refreshToken": refreshToken},
+        data: jsonEncode({'refresh_token': refreshToken}),
       );
 
       if (response.statusCode == HttpStatus.ok) {
-        final refreshTokenResponse = RefreshTokenResponse.fromJson(
-          response.data ?? {},
+        final tokens = AuthTokenDto.fromJson(
+          response.data?['data'] as Map<String, dynamic>,
         );
 
-        final newAccessToken = refreshTokenResponse.data.accessToken;
-        final newRefreshToken = refreshTokenResponse.data.refreshToken;
+        // Refresh token rotation: cũ không dùng lại được, phải lưu đè cả hai.
+        await _tokenService.saveToken(tokens.accessToken, tokens.refreshToken);
 
-        await _tokenService.saveToken(newAccessToken, newRefreshToken);
-
-        return newAccessToken;
+        return tokens.accessToken;
       }
 
       return null;
@@ -145,7 +145,6 @@ class RestClient implements IRestClient {
       return null;
     } finally {
       _isRefreshing = false;
-      _refreshCompleter = null;
     }
   }
 
@@ -173,8 +172,11 @@ class RestClient implements IRestClient {
   }
 
   @override
-  Future<Response<dynamic>?> get(String path) {
-    return _dio.get(path);
+  Future<Response<dynamic>?> get(
+    String path, {
+    Map<String, dynamic>? queryParameters,
+  }) {
+    return _dio.get(path, queryParameters: queryParameters);
   }
 
   @override
@@ -184,6 +186,6 @@ class RestClient implements IRestClient {
 
   @override
   Future<Response<dynamic>> put(String path, String? dataPrams) {
-    return _dio.put(path);
+    return _dio.put(path, data: dataPrams);
   }
 }

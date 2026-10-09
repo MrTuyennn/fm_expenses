@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main, dev, staging]
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  analyze-and-test:
+    name: Analyze & test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read Flutter version from .fvmrc
+        id: flutter_version
+        run: echo "version=$(jq -r '.flutter' .fvmrc)" >> "$GITHUB_OUTPUT"
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ steps.flutter_version.outputs.version }}
+          channel: stable
+          cache: true
+
+      - name: Activate melos
+        run: dart pub global activate melos
+
+      - name: Bootstrap workspace
+        run: melos bootstrap
+
+      - name: Analyze all packages
+        run: melos run analyze
+
+      - name: Test all packages
+        # Most packages have no test/ directory yet — skip those instead of
+        # failing CI on missing tests. Packages that DO have tests still run
+        # and still fail the build on a real failure.
+        run: melos exec --no-fail-fast -- 'if [ -d test ]; then flutter test; else echo "(no test/ directory, skipping)"; fi'
+
+      - name: Check formatting
+        run: melos exec -- "dart format --output=none --set-exit-if-changed ."

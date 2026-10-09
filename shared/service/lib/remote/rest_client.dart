@@ -2,7 +2,10 @@ import 'package:dio/dio.dart';
 
 abstract interface class IRestClient {
   /// GET
-  Future<Response<dynamic>?> get(String path);
+  Future<Response<dynamic>?> get(
+    String path, {
+    Map<String, dynamic>? queryParameters,
+  });
 
   /// POST
   Future<Response<dynamic>?> post(String path, String? dataPrams);

@@ -16,6 +16,7 @@ dependencies:
   dio_smart_retry: ^7.0.1
   get_it: ^8.0.3
   freezed_annotation: ^3.1.0
+  json_annotation: ^4.11.0
   app_logger:
     path: ../logger
   storage:

@@ -7,11 +7,10 @@ extension GetUserDtoX on GetUserDto {
   IUserEntity toEntity() {
     return UserEntity(
       id: id,
-      username: username,
-      nickname: nickname,
-      role: role,
-      createdAt: createdAt,
-      updatedAt: updatedAt,
+      email: email,
+      fullName: fullName,
+      createdAt: DateTime.tryParse(createdAt),
+      updatedAt: DateTime.tryParse(updatedAt),
     );
   }
 }
@@ -20,20 +19,18 @@ extension GetUserDtoX on GetUserDto {
 class GetUserDto {
   const GetUserDto({
     this.id = '',
-    this.username = '',
-    this.nickname = '',
-    this.role = '',
-    this.createdAt = '',
-    this.updatedAt = '',
+    this.email = '',
+    @JsonKey(name: 'full_name') this.fullName = '',
+    @JsonKey(name: 'created_at') this.createdAt = '',
+    @JsonKey(name: 'updated_at') this.updatedAt = '',
   });
 
   factory GetUserDto.fromJson(Map<String, dynamic> json) =>
       _$GetUserDtoFromJson(json);
 
   final String id;
-  final String username;
-  final String nickname;
-  final String role;
+  final String email;
+  final String fullName;
   final String createdAt;
   final String updatedAt;
 

@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:auth/data/dto/dtos.dart';
 import 'package:auth/domain/entities/entities.dart';
 import 'package:auth/domain/repository/auth_login_repository.dart';
 import 'package:auth/domain/usecase/login/auth_login_param.dart';
@@ -19,14 +18,18 @@ class AuthLoginRepoImpl with ApiScopeMixin implements AuthLoginRepository {
 
   @override
   Future<IAuthDataEntities> authLogin(IAuthLoginParam params) async {
-    final data = await runApiScope<AuthDataDto>(
+    final tokens = await runApiScope(
       request: () =>
           restClient.post('/auth/login', jsonEncode(params.toJson())),
-      deserialize: AuthDataDto.fromJson,
+      deserialize: (json) =>
+          AuthTokenDto.fromJson(json as Map<String, dynamic>),
     );
-    if (data.accessToken != '') {
-      tokenService.saveToken(data.accessToken, data.refreshToken);
-    }
-    return data.toEntity();
+
+    await tokenService.saveToken(tokens.accessToken, tokens.refreshToken);
+
+    return AuthDataEntities(
+      accessToken: tokens.accessToken,
+      refreshToken: tokens.refreshToken,
+    );
   }
 }

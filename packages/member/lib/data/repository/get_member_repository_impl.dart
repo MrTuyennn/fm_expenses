@@ -14,7 +14,8 @@ class MemberRepositoryImpl with ApiScopeMixin implements MemberRepository {
   Future<Iterable<IMemberEntity>> getMembers() {
     final data = runApiScope(
       request: () => restClient.get('/user/list'),
-      deserialize: GetMemberResponse.fromJson,
+      deserialize: (json) =>
+          GetMemberResponse.fromJson(json as Map<String, dynamic>),
     ).then((data) => data.items);
     return data;
   }
