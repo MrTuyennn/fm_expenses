@@ -20,8 +20,21 @@ scripts:
     description: Analyze all packages
 
   test:
-    run: melos exec -- "flutter test"
-    description: Run tests for all packages
+    run: melos exec --no-fail-fast -- 'if [ -d test ]; then flutter test; else echo "(no test/ directory, skipping)"; fi'
+    description: Run tests for all packages (skip package nào chưa có test/, giống đúng bước test trong ci.yml)
+
+  format_check:
+    # Chỉ quét lib/ (+ test/ nếu có), KHÔNG quét "." như ci.yml — ở local,
+    # "." sẽ quét luôn app/build/** (cache SPM/Pod sinh ra sau khi build iOS)
+    # và báo lỗi format giả trên file vendor của bên thứ 3. Trên GitHub
+    # Actions không bị vì runner luôn checkout sạch, chưa từng build nên
+    # build/ không tồn tại.
+    run: melos exec -- 'dart format --output=none --set-exit-if-changed lib $([ -d test ] && echo test)'
+    description: Check formatting cho mọi package (tương đương bước format check trong ci.yml, nhưng né build/ cache ở local)
+
+  ci:
+    run: melos bootstrap && melos run analyze && melos run test && melos run format_check
+    description: Chạy toàn bộ CI local (bootstrap + analyze + test + format check) — y hệt .github/workflows/ci.yml, dùng để check trước khi push
 
   clean:
     run: melos exec -- "flutter clean"
@@ -34,6 +47,10 @@ scripts:
   gen_l10n:
     run: melos exec --scope="*l10n*" -- "arb_translate && flutter gen-l10n && dart fix --apply && dart format ."
     description: Generate translation files
+
+  verify_store_release:
+    run: bash scripts/verify-store-release.sh
+    description: Sanity-check store-release.yml + Fastlane + Android signing scaffold trước khi push (không build/upload thật, không cần secret)
 
 ignore:
   - "**/*.g.dart"

@@ -42,6 +42,25 @@ tới pipeline này) cũng đã được sửa máy móc: format lại
 `login_page.dart`, xoá 1 import dư ở `user_bloc.dart`, và thêm exclude
 `build/**` vào `app/analysis_options.yaml`. Không đổi behavior gì.
 
+> **Bug đã fix (ảnh hưởng cả 5 workflow, có từ trước chứ không phải do phần
+> store-release mới thêm):** `melos.yaml` khai `sdkPath: .fvm/flutter_sdk`
+> để dev local dùng đúng bản Flutter ghim bởi FVM, nhưng `.fvm/` bị
+> gitignore nên không tồn tại trên GitHub Actions runner — khiến **mọi**
+> lệnh `melos` (ở cả `ci.yml`, `firebase-distribute.yml`,
+> `shorebird-release.yml`, `shorebird-patch.yml`, `store-release.yml`) fail
+> ngay với lỗi `melos.yaml: SDK path is not valid`. Đã fix bằng 1 step mới
+> ngay sau `subosito/flutter-action@v2` ở cả 5 file, tự tạo lại symlink đó
+> trỏ vào đúng bản Flutter mà action vừa cài (cùng version `.fvmrc`):
+> ```yaml
+> - name: Point .fvm/flutter_sdk at the installed Flutter (required by melos.yaml sdkPath)
+>   run: |
+>     mkdir -p .fvm
+>     ln -sfn "$(dirname "$(dirname "$(command -v flutter)")")" .fvm/flutter_sdk
+> ```
+> Đã test lại bằng cách mô phỏng đúng tình huống này ở local (xoá symlink,
+> tạo lại bằng chính lệnh trên) — `melos` chạy qua được, không còn lỗi SDK
+> path.
+
 ## Lệnh chạy nhanh (cheat sheet)
 
 ### 1. Chạy CI local trước khi push (y hệt `ci.yml`)

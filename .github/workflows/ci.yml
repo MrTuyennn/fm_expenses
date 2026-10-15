@@ -26,6 +26,16 @@ jobs:
           channel: stable
           cache: true
 
+      # melos.yaml khai `sdkPath: .fvm/flutter_sdk` để local dev dùng FVM có
+      # bản Flutter ổn định, nhưng .fvm/ bị gitignore nên không tồn tại trên
+      # runner — không tạo lại thì mọi lệnh `melos` fail ngay với lỗi
+      # "SDK path is not valid". Symlink này trỏ đúng vào bản Flutter mà
+      # flutter-action vừa cài (đúng version .fvmrc) để melos chạy được.
+      - name: Point .fvm/flutter_sdk at the installed Flutter (required by melos.yaml sdkPath)
+        run: |
+          mkdir -p .fvm
+          ln -sfn "$(dirname "$(dirname "$(command -v flutter)")")" .fvm/flutter_sdk
+
       - name: Activate melos
         run: dart pub global activate melos
 
