@@ -1,0 +1,176 @@
+name: Store release
+
+# Build flavor `prod` rồi nộp lên track store thật qua Fastlane: track
+# internal testing của Google Play (Android), TestFlight (iOS).
+# Chạy tay workflow này, sau khi đã `shorebird release` cho cùng version,
+# khi bạn muốn đưa 1 bản build cho reviewer/tester thật của store.
+#
+# Cả 2 job sẽ no-op (chỉ in warning) tới khi có đủ secret của nó, nên chạy
+# workflow này ngay bây giờ vẫn an toàn — xem docs/release-pipeline.md để
+# biết thiếu gì và checklist setup đầy đủ. Secret cần có:
+#
+#   Android: ANDROID_KEYSTORE_BASE64, ANDROID_KEYSTORE_PASSWORD,
+#     ANDROID_KEY_ALIAS, ANDROID_KEY_PASSWORD, PLAY_SERVICE_ACCOUNT_JSON_BASE64
+#
+#   iOS: IOS_APPSTORE_CERTIFICATE_BASE64, IOS_APPSTORE_CERTIFICATE_PASSWORD,
+#     IOS_APPSTORE_PROVISIONING_PROFILE_BASE64, APP_STORE_CONNECT_API_KEY_BASE64,
+#     APP_STORE_CONNECT_KEY_ID, APP_STORE_CONNECT_ISSUER_ID
+#
+# Bản thân app record trên Play Console / App Store Connect, và lần upload
+# tay bắt buộc đầu tiên của mỗi store, vẫn phải làm thủ công 1 lần — xem
+# docs/release-pipeline.md.
+on:
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: Platform to release
+        required: true
+        type: choice
+        options: [android, ios]
+
+jobs:
+  android-release:
+    name: Build & upload AAB to Play Console (prod, internal track)
+    if: ${{ inputs.platform == 'android' && secrets.ANDROID_KEYSTORE_BASE64 != '' && secrets.PLAY_SERVICE_ACCOUNT_JSON_BASE64 != '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read Flutter version from .fvmrc
+        id: flutter_version
+        run: echo "version=$(jq -r '.flutter' .fvmrc)" >> "$GITHUB_OUTPUT"
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ steps.flutter_version.outputs.version }}
+          channel: stable
+          cache: true
+
+      - name: Activate melos
+        run: dart pub global activate melos
+
+      - name: Bootstrap workspace
+        run: melos bootstrap
+
+      - name: Decode release keystore
+        working-directory: app/android
+        run: |
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > app/release.jks
+          cat > key.properties <<EOF
+          storeFile=release.jks
+          storePassword=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}
+          keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}
+          EOF
+
+      - name: Build AAB
+        working-directory: app
+        run: |
+          flutter build appbundle \
+            --flavor prod \
+            --dart-define=FLAVOR=prod \
+            --build-number=${{ github.run_number }} \
+            --release
+
+      - name: Decode Play Console service account
+        run: echo "${{ secrets.PLAY_SERVICE_ACCOUNT_JSON_BASE64 }}" | base64 --decode > "$RUNNER_TEMP/play-sa.json"
+
+      - name: Set up Ruby (for fastlane)
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+          working-directory: app/android
+
+      - name: Upload to Play Console
+        working-directory: app/android
+        env:
+          PLAY_SERVICE_ACCOUNT_JSON: ${{ runner.temp }}/play-sa.json
+          ANDROID_AAB_PATH: ../build/app/outputs/bundle/prodRelease/app-prod-release.aab
+          PLAY_TRACK: internal
+        run: bundle exec fastlane upload_to_play
+
+  android-not-configured:
+    name: Android store release skipped (secrets not set yet)
+    needs: []
+    if: ${{ inputs.platform == 'android' && (secrets.ANDROID_KEYSTORE_BASE64 == '' || secrets.PLAY_SERVICE_ACCOUNT_JSON_BASE64 == '') }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "::warning::Skipping Play Console upload — ANDROID_KEYSTORE_BASE64/PLAY_SERVICE_ACCOUNT_JSON_BASE64 secrets are not set yet. See docs/release-pipeline.md."
+
+  ios-release:
+    name: Build & upload IPA to TestFlight (prod)
+    if: ${{ inputs.platform == 'ios' && secrets.IOS_APPSTORE_CERTIFICATE_BASE64 != '' && secrets.APP_STORE_CONNECT_API_KEY_BASE64 != '' }}
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read Flutter version from .fvmrc
+        id: flutter_version
+        run: echo "version=$(jq -r '.flutter' .fvmrc)" >> "$GITHUB_OUTPUT"
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ steps.flutter_version.outputs.version }}
+          channel: stable
+          cache: true
+
+      - name: Activate melos
+        run: dart pub global activate melos
+
+      - name: Bootstrap workspace
+        run: melos bootstrap
+
+      - name: Import App Store signing certificate
+        uses: apple-actions/import-codesign-certs@v3
+        with:
+          p12-file-base64: ${{ secrets.IOS_APPSTORE_CERTIFICATE_BASE64 }}
+          p12-password: ${{ secrets.IOS_APPSTORE_CERTIFICATE_PASSWORD }}
+
+      - name: Install provisioning profile
+        run: |
+          mkdir -p ~/Library/MobileDevice/"Provisioning Profiles"
+          echo "${{ secrets.IOS_APPSTORE_PROVISIONING_PROFILE_BASE64 }}" | base64 --decode \
+            > ~/Library/MobileDevice/"Provisioning Profiles"/appstore.mobileprovision
+
+      - name: Build IPA
+        working-directory: app
+        run: |
+          flutter build ipa \
+            --flavor prod \
+            --dart-define=FLAVOR=prod \
+            --build-number=${{ github.run_number }} \
+            --export-options-plist=ios/ExportOptions-prod.plist \
+            --release
+
+      - name: Locate built IPA
+        id: ipa
+        working-directory: app
+        run: echo "path=$(ls build/ios/ipa/*.ipa | head -n1)" >> "$GITHUB_OUTPUT"
+
+      - name: Decode App Store Connect API key
+        run: echo "${{ secrets.APP_STORE_CONNECT_API_KEY_BASE64 }}" | base64 --decode > "$RUNNER_TEMP/asc-api-key.p8"
+
+      - name: Set up Ruby (for fastlane)
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+          working-directory: app/ios
+
+      - name: Upload to TestFlight
+        working-directory: app/ios
+        env:
+          APP_STORE_CONNECT_KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
+          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+          APP_STORE_CONNECT_API_KEY_PATH: ${{ runner.temp }}/asc-api-key.p8
+          IOS_IPA_PATH: ${{ github.workspace }}/app/${{ steps.ipa.outputs.path }}
+        run: bundle exec fastlane release_to_testflight
+
+  ios-not-configured:
+    name: iOS store release skipped (secrets not set yet)
+    needs: []
+    if: ${{ inputs.platform == 'ios' && (secrets.IOS_APPSTORE_CERTIFICATE_BASE64 == '' || secrets.APP_STORE_CONNECT_API_KEY_BASE64 == '') }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "::warning::Skipping TestFlight upload — IOS_APPSTORE_CERTIFICATE_BASE64/APP_STORE_CONNECT_API_KEY_BASE64 secrets are not set yet. See docs/release-pipeline.md."

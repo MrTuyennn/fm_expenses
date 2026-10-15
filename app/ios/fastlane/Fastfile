@@ -1,0 +1,30 @@
+# frozen_string_literal: true
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Upload an already-built IPA to TestFlight"
+  # Đặt tên là `release_to_testflight`, không phải `upload_to_testflight` —
+  # tên đó trùng với alias action built-in `pilot` của fastlane, fastlane
+  # sẽ in warning khi load ("Name of the lane ... is already taken by the
+  # action...").
+  lane :release_to_testflight do
+    # Xác thực bằng App Store Connect API key thay vì Apple ID + password —
+    # đây là cách duy nhất chạy được không cần tương tác trên CI (không có
+    # màn hình 2FA, không có popup "trust this device").
+    api_key = app_store_connect_api_key(
+      key_id: ENV.fetch("APP_STORE_CONNECT_KEY_ID"), # App Store Connect > Users and Access > Integrations > Keys
+      issuer_id: ENV.fetch("APP_STORE_CONNECT_ISSUER_ID"), # cùng trang đó, chung cho mọi key trong team
+      key_filepath: ENV.fetch("APP_STORE_CONNECT_API_KEY_PATH") # đường dẫn file .p8 đã tải (chỉ tải được đúng 1 lần)
+    )
+
+    # `pilot` là action upload TestFlight của fastlane (bên trong gọi
+    # altool/notarytool của Apple).
+    pilot(
+      api_key: api_key,
+      ipa: ENV.fetch("IOS_IPA_PATH"), # đường dẫn file .ipa do `flutter build ipa` tạo ra
+      skip_waiting_for_build_processing: true, # không block job CI để chờ Apple xử lý xong build
+      distribute_external: false # chỉ tester nội bộ App Store Connect; đổi thành true (+ truyền `groups:`) để tự thông báo cho tester external
+    )
+  end
+end

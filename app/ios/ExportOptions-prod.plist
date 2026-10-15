@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  SCAFFOLD, dùng cho `flutter build ipa --export-options-plist=ios/ExportOptions-prod.plist`
+  trong .github/workflows/store-release.yml.
+
+  signingStyle đang là "automatic" vì chưa có provisioning profile App
+  Store thật. Khi có rồi (xem docs/release-pipeline.md), đổi sang "manual"
+  và thêm 1 dict <key>provisioningProfiles</key> map com.fm.expense tới tên
+  profile đó, để việc ký trên CI lặp lại được chính xác (reproducible)
+  thay vì phụ thuộc vào Xcode tự chọn (thường không chạy được khi headless
+  trên CI).
+-->
+<plist version="1.0">
+<dict>
+	<key>method</key>
+	<string>app-store</string>
+	<key>teamID</key>
+	<string>UMWAV3889L</string>
+	<key>signingStyle</key>
+	<string>automatic</string>
+	<key>uploadBitcode</key>
+	<false/>
+	<key>uploadSymbols</key>
+	<true/>
+	<key>compileBitcode</key>
+	<false/>
+</dict>
+</plist>

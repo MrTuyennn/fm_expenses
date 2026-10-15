@@ -1,0 +1,12 @@
+# Copy file này thành `key.properties` (cùng thư mục) rồi điền giá trị thật
+# để bật ký release thật trong app/android/app/build.gradle.kts.
+#
+# Không bao giờ commit `key.properties` thật hoặc file .jks nó trỏ tới —
+# cả 2 đã được gitignore sẵn. Cho CI, `.github/workflows/store-release.yml`
+# tự ghi file này từ các secret ANDROID_KEYSTORE_* — xem
+# docs/release-pipeline.md.
+
+storeFile=release.jks
+storePassword=TODO_REPLACE_ME
+keyAlias=TODO_REPLACE_ME
+keyPassword=TODO_REPLACE_ME

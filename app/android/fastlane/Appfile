@@ -1,0 +1,18 @@
+# frozen_string_literal: true
+
+# SCAFFOLD. 2 giá trị dưới đây được `supply` trong Fastfile đọc ngầm
+# (implicit) — không truyền trực tiếp ở đó.
+
+# Package name thật được đọc từ biến env `ANDROID_PACKAGE_NAME` để CI có
+# thể override; giá trị mặc định dưới đây khớp với applicationId của
+# flavor `prod` (app/android/app/build.gradle.kts). Đây chính là app record
+# nào trên Play Console mà `supply` sẽ upload AAB vào.
+package_name(ENV["ANDROID_PACKAGE_NAME"] || "com.fm.expense")
+
+# Chỉ cho `supply` biết file JSON service account của Google Play ở đâu —
+# đây là cách nó xác thực với Play Developer API (không cần đăng nhập thủ
+# công). Được ghi vào bởi .github/workflows/store-release.yml từ secret
+# PLAY_SERVICE_ACCOUNT_JSON_BASE64 — xem docs/release-pipeline.md.
+# Có `if` bảo vệ để `bundle exec fastlane lanes` vẫn chạy được ở local khi
+# chưa set biến env này (chỉ là không upload được gì thật).
+json_key_file(ENV["PLAY_SERVICE_ACCOUNT_JSON"]) if ENV["PLAY_SERVICE_ACCOUNT_JSON"]

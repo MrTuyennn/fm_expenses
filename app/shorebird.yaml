@@ -1,24 +1,38 @@
-# Shorebird code-push configuration for the `app` package.
+# Config code-push (OTA) của Shorebird cho package `app`.
 #
-# This file is a SCAFFOLD. It does not work yet — you must create the real
-# Shorebird apps first. See docs/release-pipeline.md for the full checklist.
+# File này là SCAFFOLD. Chưa chạy được thật — phải tạo app Shorebird thật
+# trước. Xem checklist đầy đủ ở docs/release-pipeline.md.
 #
-# One-time setup (run locally, not in CI):
+# Setup 1 lần (chạy ở máy local, không chạy trong CI):
 #   1. curl --compressed -o- -L https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh | bash
 #   2. shorebird login
-#   3. From this `app/` directory, create one Shorebird app per flavor
-#      (dev/stag/prod are separate binaries with different application IDs,
-#      so they need separate Shorebird apps):
+#   3. Từ thư mục `app/` này, tạo 1 app Shorebird cho mỗi flavor
+#      (dev/stag/prod là 3 binary khác nhau, khác application ID, nên cần
+#      3 app Shorebird riêng):
 #        shorebird apps create fm-expenses-dev
 #        shorebird apps create fm-expenses-stag
 #        shorebird apps create fm-expenses-prod
-#   4. Copy each generated app_id below, replacing the TODO placeholders.
-#   5. For CI, generate a token once with `shorebird login:ci` and store it
-#      in the GitHub secret SHOREBIRD_TOKEN (see .github/workflows/shorebird-*.yml).
+#   4. Copy từng app_id vừa được sinh ra, dán thay vào các chỗ TODO dưới đây.
+#   5. Cho CI: sinh 1 token bằng `shorebird login:ci`, lưu vào GitHub secret
+#      SHOREBIRD_TOKEN (xem .github/workflows/shorebird-*.yml).
 
+# app_id mặc định/cấp cao nhất — chỉ dùng khi chạy lệnh shorebird mà KHÔNG
+# kèm `--flavor`. Mọi lệnh trong các workflow của repo này luôn truyền
+# `--flavor dev/stag/prod` (xem .github/workflows/shorebird-*.yml), nên
+# trên thực tế field `flavors:` ở dưới mới là cái thực sự được dùng; field
+# này vẫn phải có giá trị app_id thật, không thì CLI báo lỗi ngay lúc chạy.
+# Giá trị: giống với `flavors.prod` ở dưới.
 app_id: TODO_REPLACE_WITH_fm-expenses-prod_APP_ID
 
+# Mỗi giá trị ở đây là `app_id` được in ra terminal ngay sau khi chạy lệnh
+# `shorebird apps create fm-expenses-<flavor>` (bước 3 ở trên) — 1 chuỗi
+# dạng UUID, không phải cái tên bạn gõ vào lệnh. Mỗi flavor có 1 "app"
+# Shorebird riêng vì dev/stag/prod là 3 binary khác nhau (applicationId
+# Android / bundle id iOS khác nhau), nên Shorebird coi chúng là 3 app
+# không liên quan, dù chung 1 codebase Flutter.
+# Lúc tạo quên copy lại app_id? Chạy `shorebird apps list` để xem lại toàn
+# bộ app đã tạo kèm app_id của từng cái.
 flavors:
-  dev: TODO_REPLACE_WITH_fm-expenses-dev_APP_ID
-  stag: TODO_REPLACE_WITH_fm-expenses-stag_APP_ID
-  prod: TODO_REPLACE_WITH_fm-expenses-prod_APP_ID
+  dev: TODO_REPLACE_WITH_fm-expenses-dev_APP_ID    # lấy từ `shorebird apps create fm-expenses-dev`
+  stag: TODO_REPLACE_WITH_fm-expenses-stag_APP_ID  # lấy từ `shorebird apps create fm-expenses-stag`
+  prod: TODO_REPLACE_WITH_fm-expenses-prod_APP_ID  # lấy từ `shorebird apps create fm-expenses-prod`

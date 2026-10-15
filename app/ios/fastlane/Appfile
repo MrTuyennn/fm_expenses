@@ -1,0 +1,8 @@
+# frozen_string_literal: true
+
+# SCAFFOLD. Được mọi action fastlane trong thư mục này đọc ngầm (kể cả
+# pilot) — không truyền trực tiếp trong Fastfile.
+# Khớp với PRODUCT_BUNDLE_IDENTIFIER của flavor `prod`
+# (app/ios/Runner.xcodeproj/project.pbxproj) và DEVELOPMENT_TEAM.
+app_identifier("com.fm.expense") # bundle id mà `pilot` sẽ upload build vào
+team_id("UMWAV3889L") # team id Apple Developer (dùng để phân biệt khi account của API key thuộc >1 team)

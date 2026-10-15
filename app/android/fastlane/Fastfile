@@ -1,0 +1,20 @@
+# frozen_string_literal: true
+
+default_platform(:android)
+
+platform :android do
+  desc "Upload an already-built AAB to a Google Play Console track"
+  lane :upload_to_play do
+    # `supply` là action upload lên Play Console của fastlane (wrap Google
+    # Play Developer API). Nó tự xác thực bằng những gì đã khai trong
+    # Appfile (`package_name` + `json_key_file`) — không cần truyền gì thêm
+    # ở đây để auth.
+    supply(
+      aab: ENV.fetch("ANDROID_AAB_PATH"), # đường dẫn file .aab do `flutter build appbundle` tạo ra
+      track: ENV["PLAY_TRACK"] || "internal", # track nào của Play Console: internal/alpha/beta/production
+      skip_upload_metadata: true, # không đụng tên app/mô tả/... — phần này sửa tay trên Play Console
+      skip_upload_images: true, # không đụng feature graphic/icon — cũng sửa tay
+      skip_upload_screenshots: true # không đụng ảnh chụp màn hình — cũng sửa tay
+    )
+  end
+end
