@@ -259,6 +259,69 @@ Kiểm tra đã set đủ secret chưa (chỉ thấy tên, không thấy giá tr
 gh secret list
 ```
 
+### Bảng tham chiếu nhanh: secret nào lấy ở đâu
+
+Chi tiết từng bước (click ở đâu, lệnh gì) nằm ở mục 3 (Android) và mục 4
+(iOS) dưới đây — bảng này chỉ để tra nhanh nguồn gốc từng secret.
+
+**Android:**
+
+| Secret | Lấy ở đâu |
+|---|---|
+| `ANDROID_KEYSTORE_BASE64` | `base64` của file `release.jks` tự tạo bằng `keytool -genkeypair` (mục 3.1). |
+| `ANDROID_KEYSTORE_PASSWORD` | Password bạn tự đặt ở flag `-storepass` khi chạy `keytool` (3.1). |
+| `ANDROID_KEY_ALIAS` | Giá trị bạn tự đặt ở flag `-alias` khi chạy `keytool` (3.1). |
+| `ANDROID_KEY_PASSWORD` | Password bạn tự đặt ở flag `-keypass` khi chạy `keytool` (3.1). |
+| `PLAY_SERVICE_ACCOUNT_JSON_BASE64` | `base64` của file JSON key tạo ở Google Cloud Console → Service Accounts, sau khi đã grant quyền ở Play Console → Setup → API access (3.3). |
+
+**iOS:**
+
+| Secret | Lấy ở đâu |
+|---|---|
+| `IOS_APPSTORE_CERTIFICATE_BASE64` | `base64` của file `.p12` export từ Keychain Access (certificate "Apple Distribution" tạo ở Apple Developer Portal) (4.1). |
+| `IOS_APPSTORE_CERTIFICATE_PASSWORD` | Password bạn tự đặt lúc Export `.p12` ở Keychain Access (4.1). |
+| `IOS_APPSTORE_PROVISIONING_PROFILE_BASE64` | `base64` của file `.mobileprovision` loại **App Store**, tạo ở Apple Developer Portal → Profiles (4.2). |
+| `APP_STORE_CONNECT_API_KEY_BASE64` | `base64` của file `.p8` tải từ App Store Connect → Users and Access → Integrations (chỉ tải được 1 lần) (4.5). |
+| `APP_STORE_CONNECT_KEY_ID` | "Key ID" hiển thị ngay trên trang Integrations, cạnh key vừa tạo (4.5). |
+| `APP_STORE_CONNECT_ISSUER_ID` | "Issuer ID" ở đầu trang Integrations — 1 UUID chung cho cả team, không đổi theo key (4.5). |
+
+### Approval gate trước khi chạm secret (bắt buộc có người bấm Approve)
+
+Cả 4 job trong `store-release.yml` (`android-release`, `android-not-configured`,
+`ios-release`, `ios-not-configured`) đều được gán `environment:
+store-release` — **dù đã set secret thật hay chưa**, mỗi lần chạy workflow
+này job sẽ dừng ở trạng thái **"Waiting for review"**, chỉ tiếp tục (build
+thật, hoặc chỉ in warning "chưa configured") sau khi có người bấm Approve.
+Nhờ vậy test được flow Approve ngay bây giờ, không cần đợi có secret thật
+mới thấy được approval gate hoạt động. Đây là lớp chặn thêm, tách biệt
+với việc ai được trigger `workflow_dispatch`.
+
+**Bước tạo Environment (làm 1 lần, trên web, code không tạo hộ được):**
+
+1. Repo trên GitHub → **Settings → Environments → New environment**.
+2. Đặt tên **đúng chính xác** `store-release` (phải khớp với
+   `environment:` trong `store-release.yml`, nếu không job sẽ tự tạo 1
+   environment mới không có rule nào và chạy thẳng, không dừng chờ duyệt).
+3. Trong màn hình cấu hình environment vừa tạo, tick **"Required
+   reviewers"** → thêm tài khoản GitHub của người/những người được quyền
+   duyệt (có thể là chính bạn, hoặc thêm đồng nghiệp để tách người
+   trigger và người duyệt).
+4. (Khuyến nghị thêm) Mục **"Deployment branches and tags"** → chọn
+   "Selected branches and tags" → chỉ cho phép `main` — tránh trường hợp
+   trigger `workflow_dispatch` từ 1 branch lạ rồi vẫn được duyệt nhầm.
+5. Save protection rules.
+
+**Khi chạy thật:** vào tab **Actions** của repo → run vừa trigger sẽ hiện
+trạng thái "Waiting for review" → reviewer bấm vào run đó → nút **"Review
+deployments"** → tick environment `store-release` → **Approve and
+deploy** (hoặc **Reject** để huỷ, job sẽ dừng, không chạm secret).
+
+Muốn thêm lớp duyệt này cho cả `shorebird-release.yml` /
+`shorebird-patch.yml` / `firebase-distribute.yml` thì làm tương tự: thêm
+dòng `environment: <tên>` vào job tương ứng, tạo thêm environment đó ở
+Settings với Required reviewers riêng (có thể dùng lại tên
+`store-release` nếu muốn dùng chung 1 nhóm reviewer cho tất cả).
+
 ---
 
 ## 1. Shorebird (code push / OTA)
@@ -555,8 +618,12 @@ kết quả thật. Mỗi dòng trỏ vào mục chi tiết ở trên.
   `IOS_APPSTORE_PROVISIONING_PROFILE_BASE64`, sửa `ExportOptions-prod.plist`,
   app record App Store Connect, `APP_STORE_CONNECT_API_KEY_BASE64/KEY_ID/ISSUER_ID`.
 - [ ] `gh secret list` để soát lại đủ secret chưa.
+- [ ] [Approval gate](#approval-gate-trước-khi-chạm-secret-bắt-buộc-có-người-bấm-approve)
+  — tạo Environment `store-release` ở Settings, thêm Required reviewers,
+  giới hạn deploy branch `main`.
 - [ ] Chạy thật: Actions → **Store release** → Run workflow → `android` (và
-  /hoặc `ios`) → theo dõi log.
+  /hoặc `ios`) → run sẽ dừng ở "Waiting for review" → reviewer vào
+  **Review deployments** → **Approve and deploy** → theo dõi log.
 
 ## Quy trình hằng ngày khi mọi thứ đã live
 

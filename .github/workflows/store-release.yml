@@ -32,6 +32,12 @@ jobs:
   android-release:
     name: Build & upload AAB to Play Console (prod, internal track)
     if: ${{ inputs.platform == 'android' && secrets.ANDROID_KEYSTORE_BASE64 != '' && secrets.PLAY_SERVICE_ACCOUNT_JSON_BASE64 != '' }}
+    # Environment "store-release" có Required reviewers cấu hình ở GitHub
+    # (Settings → Environments) — job sẽ dừng ở trạng thái "Waiting for
+    # review" tới khi 1 reviewer vào tab Actions bấm "Review deployments" →
+    # Approve, mới thật sự chạy và chạm tới secret ký + upload store. Xem
+    # docs/release-pipeline.md mục "Approval gate trước khi chạm secret".
+    environment: store-release
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -104,6 +110,10 @@ jobs:
     name: Android store release skipped (secrets not set yet)
     needs: []
     if: ${{ inputs.platform == 'android' && (secrets.ANDROID_KEYSTORE_BASE64 == '' || secrets.PLAY_SERVICE_ACCOUNT_JSON_BASE64 == '') }}
+    # Cùng environment store-release như job thật — để approval gate luôn
+    # bắt buộc dù secret đã có hay chưa (test được flow Approve ngay bây
+    # giờ, không cần đợi có secret thật).
+    environment: store-release
     runs-on: ubuntu-latest
     steps:
       - run: echo "::warning::Skipping Play Console upload — ANDROID_KEYSTORE_BASE64/PLAY_SERVICE_ACCOUNT_JSON_BASE64 secrets are not set yet. See docs/release-pipeline.md."
@@ -111,6 +121,10 @@ jobs:
   ios-release:
     name: Build & upload IPA to TestFlight (prod)
     if: ${{ inputs.platform == 'ios' && secrets.IOS_APPSTORE_CERTIFICATE_BASE64 != '' && secrets.APP_STORE_CONNECT_API_KEY_BASE64 != '' }}
+    # Cùng environment "store-release" như job android-release ở trên — xem
+    # comment ở đó, hoặc docs/release-pipeline.md mục "Approval gate trước
+    # khi chạm secret".
+    environment: store-release
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
@@ -191,6 +205,9 @@ jobs:
     name: iOS store release skipped (secrets not set yet)
     needs: []
     if: ${{ inputs.platform == 'ios' && (secrets.IOS_APPSTORE_CERTIFICATE_BASE64 == '' || secrets.APP_STORE_CONNECT_API_KEY_BASE64 == '') }}
+    # Cùng environment store-release như job thật — approval gate luôn bắt
+    # buộc dù secret đã có hay chưa.
+    environment: store-release
     runs-on: ubuntu-latest
     steps:
       - run: echo "::warning::Skipping TestFlight upload — IOS_APPSTORE_CERTIFICATE_BASE64/APP_STORE_CONNECT_API_KEY_BASE64 secrets are not set yet. See docs/release-pipeline.md."
